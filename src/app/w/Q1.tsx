@@ -1,13 +1,13 @@
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Heading } from './Heading'
-import { dietOptions } from './options'
-import { Label } from '@/components/ui/label'
-import { useFormContext } from 'react-hook-form'
-import { CollectDataForm } from './CollectData'
-import { ChefHat } from 'lucide-react'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Heading } from './Heading';
+import { dietOptions } from './options';
+import { Label } from '@/components/ui/label';
+import { useFormContext } from 'react-hook-form';
+import { CollectDataForm } from './CollectData';
+import { ChefHat } from 'lucide-react';
 
 export function Q1() {
-  const { setValue, watch } = useFormContext<CollectDataForm>()
+  const { setValue, watch } = useFormContext<CollectDataForm>();
 
   return (
     <div className="w-full flex flex-col gap-1">
@@ -17,18 +17,18 @@ export function Q1() {
           sau."
       />
       <RadioGroup
-        onValueChange={v => {
-          const option = dietOptions.find(item => item.id === v)
+        onValueChange={(v) => {
+          const option = dietOptions.find((item) => item.id === v);
 
-          const name = option?.name || ''
-          const exclude = option?.excludes || []
-          const currentExclude = watch('exclude')
+          const name = option?.name || '';
+          const exclude = option?.excludes || [];
+          const currentExclude = watch('exclude');
 
-          setValue('favoriteDiet', name)
-          setValue('exclude', [...currentExclude, ...exclude])
+          setValue('favoriteDiet', name);
+          setValue('exclude', [...currentExclude, ...exclude]);
         }}
       >
-        {dietOptions.map(diet => (
+        {dietOptions.map((diet) => (
           <div
             key={diet.id}
             className="flex items-center gap-4 border solid border-neutral-600 p-4 h-20 rounded-md w-full cursor-pointer"
@@ -54,10 +54,10 @@ export function Q1() {
         ))}
       </RadioGroup>
 
-      <span className="text-balance">
+      <span className="text-balance text-sm">
         Không thấy chế độ ăn ưa thích của bạn? Chọn &apos;Bất kỳ&apos; rồi tùy
         chỉnh sau.
       </span>
     </div>
-  )
+  );
 }
