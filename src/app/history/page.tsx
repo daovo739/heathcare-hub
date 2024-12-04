@@ -19,29 +19,29 @@ const getLogHistory = async () => {
 export default async function Page() {
   const logs = await getLogHistory();
 
-  console.log(logs);
-
   return (
     <div>
       <h1 className="text-2xl font-bold">Lịch sử các đề xuất dinh dưỡng</h1>
 
-      {logs.map((log) => (
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>
-              <span>
-                {format(new Date(log.timestamp), 'dd/MM/yyyy HH:mm:ss')}
-              </span>
-            </AccordionTrigger>
+      {logs.map((log) => {
+        return (
+          <Accordion type="single" collapsible className="w-full" key={log.id}>
+            <AccordionItem value="item-1">
+              <AccordionTrigger>
+                <span>
+                  {format(new Date(log.timestamp), 'dd/MM/yyyy HH:mm:ss')}
+                </span>
+              </AccordionTrigger>
 
-            <AccordionContent>
-              <NutritionInfo data={log.dataForm} />
+              <AccordionContent className="space-y-6">
+                <NutritionInfo data={log.dataForm} />
 
-              <NutritionResult result={parseFormattedText(log.botResponse)} />
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      ))}
+                <NutritionResult data={parseFormattedText(log.botResponse)} />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        );
+      })}
     </div>
   );
 }

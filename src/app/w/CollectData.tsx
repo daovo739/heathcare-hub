@@ -81,7 +81,6 @@ export function CollectData() {
     },
     onSuccess: (data) => {
       if (data && 'response' in data) {
-        console.log(data.response);
         setResponse(parseFormattedText(data.response));
       }
     },
@@ -122,7 +121,7 @@ export function CollectData() {
           <div className="flex items-center gap-3 w-full justify-center">
             {Array.from({ length: 6 }).map((_, index) => {
               if (index === currentStep)
-                return <Pizza key={index} size={28} color="#81BFDA" />;
+                return <Pizza key={index} size={28} className="text-primary" />;
 
               return (
                 <div
@@ -130,8 +129,8 @@ export function CollectData() {
                   className={cn(
                     'size-3 rounded-full border border-solid cursor-pointer',
                     {
-                      'bg-[#81BFDA]': index < currentStep,
-                      'border-[#81BFDA]': index > currentStep,
+                      'bg-primary': index < currentStep,
+                      'border-primary': index > currentStep,
                     }
                   )}
                   onClick={() => {

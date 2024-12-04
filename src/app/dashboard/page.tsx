@@ -2,11 +2,13 @@
 
 import { ArrowRight, Beef, FileClock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import ButtonCard from '../ButtonCard';
 import { useAppContext } from '@/contexts/AppContext';
 import { useQuery } from '@tanstack/react-query';
 import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
 import { generateDashboardPrompt } from '@/utils/dashboard.utils';
+import ButtonCard from '../../components/ButtonCard';
+import { AddFoodDialog } from './AddFoodDialog';
+import { useState } from 'react';
 
 export default function Page() {
   const router = useRouter();
@@ -26,6 +28,8 @@ export default function Page() {
       }
     },
   });
+
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <div>
@@ -62,10 +66,10 @@ export default function Page() {
 
         <div className="grid grid-cols-3 gap-4">
           {/* Calo */}
-          <div className="max-w-sm mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 cursor-pointer w-full">
+          <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 cursor-pointer w-full">
             <div className="flex items-center mb-4">
               <span className="text-2xl text-blue-500 mr-2">🌡️</span>
-              <h2 className="text-lg font-bold text-gray-800">Calo tiêu thụ</h2>
+              <h2 className="text-lg font-bold text-gray-800">Kcal tiêu thụ</h2>
             </div>
             <div className="text-center mb-4">
               <span className="text-4xl font-semibold text-gray-900">
@@ -83,7 +87,10 @@ export default function Page() {
           </div>
 
           {/* Thông tin bữa ăn */}
-          <div className="max-w-sm mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full">
+          <div
+            className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full"
+            onClick={() => setOpenModal(true)}
+          >
             <div className="flex items-center justify-center mb-4">
               <Beef className="text-red-500" size={32} />
             </div>
@@ -92,10 +99,14 @@ export default function Page() {
                 Bữa ăn
               </span>
             </div>
+            <div className="flex justify-center gap-2 items-center text-primary font-semibold">
+              <span>Cập nhật bữa ăn ngay</span>
+              <ArrowRight size={22} />
+            </div>
           </div>
 
           {/* history */}
-          <div className="max-w-sm mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full">
+          <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full">
             <div className="flex items-center justify-center mb-4">
               <FileClock className="text-neutral-600" size={32} />
             </div>
@@ -108,25 +119,30 @@ export default function Page() {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div
-            className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 cursor-pointer w-full"
-            onClick={() => router.push('/w')}
-          >
-            <ButtonCard
-              title="Khám phá đề xuất dinh dưỡng"
-              subtitle="Nhận chế độ ăn uống cá nhân hóa dựa trên mục tiêu sức khỏe của bạn"
-              hero="Đi đến trang đề xuất"
-            />
-          </div>
-          <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 cursor-pointer w-full">
-            <ButtonCard
-              title="Scan thực phẩm của bạn"
-              subtitle="Sử dụng hình ảnh để phân tích thành phần dinh dưỡng và nhận đề xuất bữa ăn phù hợp"
-              hero="Scan ngay"
-            />
+          <div className="col-span-1 flex flex-col gap-4">
+            <div
+              className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 cursor-pointer w-full"
+              onClick={() => router.push('/w')}
+            >
+              <ButtonCard
+                title="Khám phá đề xuất dinh dưỡng"
+                subtitle="Nhận chế độ ăn uống cá nhân hóa dựa trên mục tiêu sức khỏe của bạn"
+                hero="Đi đến trang đề xuất"
+              />
+            </div>
+            <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 cursor-pointer w-full">
+              <ButtonCard
+                title="Scan thực phẩm của bạn"
+                subtitle="Sử dụng hình ảnh để phân tích thành phần dinh dưỡng và nhận đề xuất bữa ăn phù hợp"
+                hero="Scan ngay"
+              />
+            </div>
           </div>
         </div>
       </section>
+      {openModal && (
+        <AddFoodDialog open={openModal} setOpenModal={setOpenModal} />
+      )}
     </div>
   );
 }

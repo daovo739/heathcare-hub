@@ -1,17 +1,17 @@
-import { Input } from '@/components/ui/input'
-import { Heading } from './Heading'
-import { useState } from 'react'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { CircleHelp } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { useFormContext } from 'react-hook-form'
-import { CollectDataForm } from './CollectData'
+import { Input } from '@/components/ui/input';
+import { Heading } from './Heading';
+import { useState } from 'react';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { CircleHelp } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useFormContext } from 'react-hook-form';
+import { CollectDataForm } from './CollectData';
 
 export function Q4() {
-  const { setValue, watch } = useFormContext<CollectDataForm>()
-  const [goal, setGoal] = useState<'general' | 'exact'>('general')
+  const { setValue, watch } = useFormContext<CollectDataForm>();
+  const [goal, setGoal] = useState<'general' | 'exact'>('general');
 
-  const currentTarget = watch('target')
+  const currentTarget = watch('target');
 
   return (
     <div>
@@ -29,14 +29,14 @@ export function Q4() {
             variant="outline"
             type="single"
             value={goal}
-            onValueChange={value => {
-              setGoal(value as 'general' | 'exact')
+            onValueChange={(value) => {
+              setGoal(value as 'general' | 'exact');
             }}
           >
             <ToggleGroupItem
               value="general"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white': goal === 'general',
+                'bg-primary border-primary text-white': goal === 'general',
               })}
             >
               Mục tiêu chung
@@ -44,7 +44,7 @@ export function Q4() {
             <ToggleGroupItem
               value="exact"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white': goal === 'exact',
+                'bg-primary border-primary text-white': goal === 'exact',
               })}
             >
               Mục tiêu chính xác
@@ -62,17 +62,17 @@ export function Q4() {
               variant="outline"
               type="single"
               value={currentTarget.type}
-              onValueChange={value => {
+              onValueChange={(value) => {
                 setValue(
                   'target.type',
                   value as 'Giảm cân' | 'Duy trì cân nặng' | 'Xây dựng cơ bắp'
-                )
+                );
               }}
             >
               <ToggleGroupItem
                 value="Giảm cân"
                 className={cn({
-                  'bg-blue-600 border-blue-600 text-white':
+                  'bg-primary border-primary text-white':
                     currentTarget.type === 'Giảm cân',
                 })}
               >
@@ -81,7 +81,7 @@ export function Q4() {
               <ToggleGroupItem
                 value="Duy trì cân nặng"
                 className={cn({
-                  'bg-blue-600 border-blue-600 text-white':
+                  'bg-primary border-primary text-white':
                     currentTarget.type === 'Duy trì cân nặng',
                 })}
               >
@@ -90,7 +90,7 @@ export function Q4() {
               <ToggleGroupItem
                 value="Xây dựng cơ bắp"
                 className={cn({
-                  'bg-blue-600 border-blue-600 text-white':
+                  'bg-primary border-primary text-white':
                     currentTarget.type === 'Xây dựng cơ bắp',
                 })}
               >
@@ -112,7 +112,7 @@ export function Q4() {
                   min={1}
                   prefix="kg"
                   className="w-16"
-                  onChange={e => setValue('target.weight', +e.target.value)}
+                  onChange={(e) => setValue('target.weight', +e.target.value)}
                 />
                 <span className="mt-2 ml-2">kg</span>
               </div>
@@ -127,7 +127,7 @@ export function Q4() {
                   min={1}
                   prefix="kg"
                   className="w-16"
-                  onChange={e =>
+                  onChange={(e) =>
                     setValue('target.weightEachWeek', +e.target.value)
                   }
                 />
@@ -142,5 +142,5 @@ export function Q4() {
         )}
       </div>
     </div>
-  )
+  );
 }
