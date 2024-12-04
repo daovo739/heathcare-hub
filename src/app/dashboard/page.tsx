@@ -5,9 +5,13 @@ import { useRouter } from 'next/navigation';
 import ButtonCard from '../../components/ButtonCard';
 import { AddFoodDialog } from './AddFoodDialog';
 import { useState } from 'react';
+import { useAppContext } from '../Provider';
 
 export default function Page() {
   const router = useRouter();
+  const { foodHistories } = useAppContext();
+
+  console.log(foodHistories);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -84,7 +88,10 @@ export default function Page() {
           </div>
 
           {/* history */}
-          <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full">
+          <div
+            className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full"
+            onClick={() => router.push('/history')}
+          >
             <div className="flex items-center justify-center mb-4">
               <FileClock className="text-neutral-600" size={32} />
             </div>
