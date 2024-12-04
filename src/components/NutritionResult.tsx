@@ -17,15 +17,13 @@ type Props = {
 
 export const NutritionResult = ({ data }: Props) => {
   return (
-    <div className="p-6 space-y-6 bg-gray-50 text-gray-800">
+    <div className="space-y-6 bg-gray-50 text-gray-800">
       {Object.entries(data).map(([sectionTitle, subsections], index) => (
         <div
           key={index}
           className="p-4 rounded-lg shadow-md bg-white border border-gray-200"
         >
-          <h2 className="text-md font-semibold mb-4 text-indigo-600">
-            {sectionTitle}
-          </h2>
+          <h2 className="text-md font-semibold mb-4 ">{sectionTitle}</h2>
           {subsections.map((subsection, subIndex) => (
             <div key={subIndex} className="mb-1">
               <h3 className="text-sm font-medium mb-2 text-gray-700">

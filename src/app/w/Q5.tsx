@@ -1,23 +1,23 @@
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { Heading } from './Heading'
-import { cn } from '@/lib/utils'
-import { CircleHelp } from 'lucide-react'
-import { Input } from '@/components/ui/input'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Heading } from './Heading';
+import { cn } from '@/lib/utils';
+import { CircleHelp } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/ui/select';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { useFormContext } from 'react-hook-form'
-import { CollectDataForm } from './CollectData'
+} from '@/components/ui/tooltip';
+import { useFormContext } from 'react-hook-form';
+import { CollectDataForm } from './CollectData';
 
 const activityLevels = [
   'Công việc văn phòng, tập thể dục nhẹ nhàng',
@@ -25,12 +25,12 @@ const activityLevels = [
   'Hoạt động hàng ngày, tập luyện thường xuyên',
   'Rất năng động',
   'Vận động viên chuyên nghiệp',
-]
+];
 
 export function Q5() {
-  const { setValue, watch } = useFormContext<CollectDataForm>()
+  const { setValue, watch } = useFormContext<CollectDataForm>();
 
-  const personalInfo = watch('personalInfo')
+  const personalInfo = watch('personalInfo');
 
   return (
     <div>
@@ -46,14 +46,14 @@ export function Q5() {
             variant="outline"
             type="single"
             value={personalInfo.sex}
-            onValueChange={value => {
-              setValue('personalInfo.sex', value as 'Nam' | 'Nữ' | 'Khác')
+            onValueChange={(value) => {
+              setValue('personalInfo.sex', value as 'Nam' | 'Nữ' | 'Khác');
             }}
           >
             <ToggleGroupItem
               value="Nam"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white':
+                'bg-primary border-primary text-white':
                   personalInfo.sex === 'Nam',
               })}
             >
@@ -62,7 +62,7 @@ export function Q5() {
             <ToggleGroupItem
               value="Nữ"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white':
+                'bg-primary border-primary text-white':
                   personalInfo.sex === 'Nữ',
               })}
             >
@@ -71,7 +71,7 @@ export function Q5() {
             <ToggleGroupItem
               value="Khác"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white':
+                'bg-primary border-primary text-white':
                   personalInfo.sex === 'Khác',
               })}
             >
@@ -88,7 +88,7 @@ export function Q5() {
               min={1}
               prefix="kg"
               className="w-16"
-              onChange={e => setValue('personalInfo.height', +e.target.value)}
+              onChange={(e) => setValue('personalInfo.height', +e.target.value)}
             />
             <span className="mt-2 ml-2">cm</span>
           </div>
@@ -102,7 +102,7 @@ export function Q5() {
               min={1}
               prefix="kg"
               className="w-16"
-              onChange={e => setValue('personalInfo.weight', +e.target.value)}
+              onChange={(e) => setValue('personalInfo.weight', +e.target.value)}
             />
             <span className="mt-2 ml-2">kg</span>
           </div>
@@ -116,7 +116,7 @@ export function Q5() {
               min={1}
               prefix="kg"
               className="w-16"
-              onChange={e => setValue('personalInfo.age', +e.target.value)}
+              onChange={(e) => setValue('personalInfo.age', +e.target.value)}
             />
             <span className="mt-2 ml-2">years</span>
           </div>
@@ -146,17 +146,17 @@ export function Q5() {
             variant="outline"
             type="single"
             value={personalInfo.lipid}
-            onValueChange={value => {
+            onValueChange={(value) => {
               setValue(
                 'personalInfo.lipid',
                 value as 'Cao' | 'Trung bình' | 'Thấp'
-              )
+              );
             }}
           >
             <ToggleGroupItem
               value="Thấp"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white':
+                'bg-primary border-primary text-white':
                   personalInfo.lipid === 'Thấp',
               })}
             >
@@ -165,7 +165,7 @@ export function Q5() {
             <ToggleGroupItem
               value="Trung bình"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white':
+                'bg-primary border-primary text-white':
                   personalInfo.lipid === 'Trung bình',
               })}
             >
@@ -174,7 +174,7 @@ export function Q5() {
             <ToggleGroupItem
               value="Cao"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white':
+                'bg-primary border-primary text-white':
                   personalInfo.lipid === 'Cao',
               })}
             >
@@ -187,12 +187,14 @@ export function Q5() {
           <label className="block mb-2 text-sm font-semibold">
             Chế độ hoạt động
           </label>
-          <Select onValueChange={val => setValue('personalInfo.activity', val)}>
+          <Select
+            onValueChange={(val) => setValue('personalInfo.activity', val)}
+          >
             <SelectTrigger className="w-[320px]">
               <SelectValue placeholder="Chọn hoạt động" />
             </SelectTrigger>
             <SelectContent>
-              {activityLevels.map(level => (
+              {activityLevels.map((level) => (
                 <SelectItem key={level} value={level}>
                   {level}
                 </SelectItem>
@@ -202,5 +204,5 @@ export function Q5() {
         </div>
       </div>
     </div>
-  )
+  );
 }

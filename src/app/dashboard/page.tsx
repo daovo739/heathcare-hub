@@ -2,7 +2,7 @@
 
 import { ArrowRight, Beef, FileClock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import ButtonCard from '../ButtonCard';
+import ButtonCard from '../../components/ButtonCard';
 
 export default function Page() {
   const router = useRouter();

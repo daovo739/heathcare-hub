@@ -30,8 +30,8 @@ export function Q2() {
           {exclusions.at(0)?.items?.map((item) => (
             <Button
               variant="outline"
-              className={cn('rounded-md hover:bg-blue-600 hover:text-white', {
-                'bg-blue-600 text-white': currentExclusions.includes(item),
+              className={cn('rounded-md hover:bg-primary hover:text-white', {
+                'bg-primary text-white': currentExclusions.includes(item),
               })}
               key={item}
               onClick={() => {
@@ -67,9 +67,9 @@ export function Q2() {
                         variant="outline"
                         key={item}
                         className={cn(
-                          'rounded-md hover:bg-blue-600 hover:text-white',
+                          'rounded-md hover:bg-primary hover:text-white',
                           {
-                            'bg-blue-600 text-white':
+                            'bg-primary text-white':
                               currentExclusions.includes(item),
                           }
                         )}

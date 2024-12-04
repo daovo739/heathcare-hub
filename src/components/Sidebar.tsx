@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const menuItems = [
-  { name: 'Home', icon: Home, href: '/' },
+  { name: 'Home', icon: Home, href: '/dashboard' },
   { name: 'History', icon: History, href: '/history' },
   { name: 'Settings', icon: Settings, href: '/settings' },
 ];

@@ -1,14 +1,14 @@
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { cn } from '@/lib/utils'
-import { useFormContext } from 'react-hook-form'
-import { CollectDataForm } from './CollectData'
-import { Heading } from './Heading'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { cn } from '@/lib/utils';
+import { useFormContext } from 'react-hook-form';
+import { CollectDataForm } from './CollectData';
+import { Heading } from './Heading';
 
 export function Q3() {
-  const { setValue, watch } = useFormContext<CollectDataForm>()
+  const { setValue, watch } = useFormContext<CollectDataForm>();
 
-  const currentUnit = watch('units')
-  const currentEnergy = watch('energyUnit')
+  const currentUnit = watch('units');
+  const currentEnergy = watch('energyUnit');
 
   return (
     <div>
@@ -27,14 +27,14 @@ export function Q3() {
             variant="outline"
             type="single"
             value={currentUnit}
-            onValueChange={value => {
-              setValue('units', value as 'Tiêu chuẩn Mỹ' | 'Hệ mét')
+            onValueChange={(value) => {
+              setValue('units', value as 'Tiêu chuẩn Mỹ' | 'Hệ mét');
             }}
           >
             <ToggleGroupItem
               value="Tiêu chuẩn Mỹ"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white':
+                'bg-primary border-primary text-white':
                   currentUnit === 'Tiêu chuẩn Mỹ',
               })}
             >
@@ -43,7 +43,7 @@ export function Q3() {
             <ToggleGroupItem
               value="Hệ mét"
               className={cn({
-                'bg-blue-600 border-blue-600 text-white':
+                'bg-primary border-primary text-white':
                   currentUnit === 'Hệ mét',
               })}
             >
@@ -62,14 +62,14 @@ export function Q3() {
               variant="outline"
               type="single"
               value={currentEnergy}
-              onValueChange={value => {
-                setValue('energyUnit', value as 'Calo' | 'Kilojoule')
+              onValueChange={(value) => {
+                setValue('energyUnit', value as 'Calo' | 'Kilojoule');
               }}
             >
               <ToggleGroupItem
                 value="Calo"
                 className={cn({
-                  'bg-blue-600 border-blue-600 text-white':
+                  'bg-primary border-primary text-white':
                     currentEnergy === 'Calo',
                 })}
               >
@@ -78,7 +78,7 @@ export function Q3() {
               <ToggleGroupItem
                 value="Kilojoule"
                 className={cn({
-                  'bg-blue-600 border-blue-600 text-white':
+                  'bg-primary border-primary text-white':
                     currentEnergy === 'Kilojoule',
                 })}
               >
@@ -89,5 +89,5 @@ export function Q3() {
         </div>
       </div>
     </div>
-  )
+  );
 }

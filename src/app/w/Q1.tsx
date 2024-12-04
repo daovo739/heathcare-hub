@@ -1,10 +1,9 @@
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Heading } from './Heading';
-import { dietOptions } from './options';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useFormContext } from 'react-hook-form';
 import { CollectDataForm } from './CollectData';
-import { ChefHat } from 'lucide-react';
+import { Heading } from './Heading';
+import { dietOptions } from './options';
 
 export function Q1() {
   const { setValue, watch } = useFormContext<CollectDataForm>();
