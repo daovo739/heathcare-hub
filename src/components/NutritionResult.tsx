@@ -15,7 +15,7 @@ type Props = {
   data: Section;
 };
 
-export const NutritionInfo = ({ data }: Props) => {
+export const NutritionResult = ({ data }: Props) => {
   return (
     <div className="p-6 space-y-6 bg-gray-50 text-gray-800">
       {Object.entries(data).map(([sectionTitle, subsections], index) => (

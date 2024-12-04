@@ -1,13 +1,13 @@
 'use client';
 
-import { Home, Settings, Users } from 'lucide-react'; // Icons from lucide-react
 import { cn } from '@/lib/utils'; // Ensure you have this from shadcn
+import { History, Home, Settings } from 'lucide-react'; // Icons from lucide-react
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 const menuItems = [
   { name: 'Home', icon: Home, href: '/' },
-  { name: 'Users', icon: Users, href: '/users' },
+  { name: 'History', icon: History, href: '/history' },
   { name: 'Settings', icon: Settings, href: '/settings' },
 ];
 export function Sidebar() {
