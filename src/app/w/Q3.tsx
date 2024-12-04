@@ -73,7 +73,7 @@ export function Q3() {
                     currentEnergy === 'Calo',
                 })}
               >
-                Calo
+                Kcal
               </ToggleGroupItem>
               <ToggleGroupItem
                 value="Kilojoule"

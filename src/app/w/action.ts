@@ -21,8 +21,8 @@ export function generateNutritionPrompt(data: CollectDataForm) {
   
   Hãy cung cấp thông tin theo định dạng sau:
 
-    **1. Số calo cần thiết mỗi ngày**
-    - Tổng số calo: 2.500 calo
+    **1. Số kcal cần thiết mỗi ngày**
+    - Tổng số kcal: 2.500 kcal
     - Tỷ lệ dinh dưỡng cần thiết: 60% chất béo, 20% carb, 20% protein
 
     **2. Danh sách thực phẩm gợi ý**
