@@ -41,7 +41,12 @@ export default function CompletePage() {
             <strong>Tuổi:</strong> {surveyData.personalInfo.age || '-'}
           </p>
           <p>
-            <strong>Giới tính:</strong> {surveyData.personalInfo.gender || '-'}
+            <strong>Giới tính:</strong>{' '}
+            {surveyData.personalInfo.gender === 'male'
+              ? 'Nam'
+              : surveyData.personalInfo.gender === 'female'
+              ? 'Nữ'
+              : '-'}
           </p>
           <p>
             <strong>Chiều cao:</strong> {surveyData.personalInfo.height || '-'}{' '}
