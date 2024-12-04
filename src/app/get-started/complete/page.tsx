@@ -5,7 +5,7 @@ import { ProgressiveContainer } from '../_components/ProgressiveContainer';
 import { useSurveyContext } from '../_contexts/SurveyContext';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { useAppContext } from '@/contexts/AppContext';
+import { useAppContext } from '@/app/Provider';
 
 export default function CompletePage() {
   const router = useRouter();
