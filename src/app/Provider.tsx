@@ -18,9 +18,45 @@ export interface FoodHistory {
   totalKcal: number;
 }
 
+export type SurveyData = {
+  goals: string[];
+  personalInfo: {
+    age: string;
+    gender: string;
+    height: string;
+    weight: string;
+  };
+  medicalHistory?: {
+    conditions?: string[];
+    otherCondition?: string;
+  };
+};
+
+export type GeneralHealthData = {
+  energy?: {
+    caloIn: number | null;
+    caloTarget: number | null;
+    date: Date | null;
+  };
+  status?: {
+    name: string | null;
+    level: number | null;
+    situation: string | null;
+  };
+  mealSchedule?: {
+    mealType: string | null;
+    time: string | null;
+    advice: string | null;
+  };
+};
+
 interface AppContext {
   foodHistories: FoodHistory[];
   setFoodHistories: Dispatch<SetStateAction<FoodHistory[]>>;
+  surveyData: SurveyData;
+  updateSurveyData: (newData: Partial<SurveyData>) => void;
+  generalHealthData: GeneralHealthData | null;
+  updateGeneralHealthData: (newData: GeneralHealthData) => void;
 }
 
 const AppContext = createContext<AppContext | undefined>(undefined);
@@ -30,9 +66,51 @@ const queryClient = new QueryClient();
 export function Provider({ children }: PropsWithChildren) {
   const [foodHistories, setFoodHistories] = useState<FoodHistory[]>([]);
 
+  const [surveyData, setSurveyData] = useState<SurveyData>({
+    goals: [],
+    personalInfo: {
+      age: '',
+      gender: '',
+      height: '',
+      weight: '',
+    },
+    medicalHistory: {
+      conditions: [],
+      otherCondition: '',
+    },
+  });
+
+  const updateSurveyData = (newData: Partial<SurveyData>) => {
+    setSurveyData((prevData) => ({
+      ...prevData,
+      ...newData,
+      personalInfo: { ...prevData.personalInfo, ...newData.personalInfo },
+      medicalHistory: { ...prevData.medicalHistory, ...newData.medicalHistory },
+    }));
+  };
+
+  const [generalHealthData, setGeneralHealthData] =
+    useState<GeneralHealthData | null>(null);
+
+  const updateGeneralHealthData = (newData: GeneralHealthData) => {
+    setGeneralHealthData((prevData) => ({
+      ...prevData,
+      ...newData,
+    }));
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
-      <AppContext.Provider value={{ foodHistories, setFoodHistories }}>
+      <AppContext.Provider
+        value={{
+          foodHistories,
+          setFoodHistories,
+          surveyData,
+          updateSurveyData,
+          generalHealthData,
+          updateGeneralHealthData,
+        }}
+      >
         {children}
       </AppContext.Provider>
     </QueryClientProvider>

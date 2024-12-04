@@ -1,20 +1,9 @@
+import emPi from '@/assets/images/emPi.png';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import emPi from '@/assets/images/emPi.png';
 
 export default function Home() {
-  const languages = [
-    { name: 'ENGLISH', flag: '🇺🇸' },
-    { name: 'SPANISH', flag: '🇪🇸' },
-    { name: 'FRENCH', flag: '🇫🇷' },
-    { name: 'GERMAN', flag: '🇩🇪' },
-    { name: 'ITALIAN', flag: '🇮🇹' },
-    { name: 'PORTUGUESE', flag: '🇵🇹' },
-    { name: 'DUTCH', flag: '🇳🇱' },
-  ];
-
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -23,11 +12,6 @@ export default function Home() {
           <span className="text-primary text-2xl font-bold">
             Enouvo Healthcare Hub
           </span>
-        </div>
-        <div className="flex-1 flex justify-end">
-          <Button variant="ghost" className="text-gray-400">
-            SITE LANGUAGE: ENGLISH
-          </Button>
         </div>
       </header>
 
@@ -69,24 +53,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="p-4 border-t">
         <div className="max-w-6xl mx-auto flex items-center justify-center gap-2">
-          <Button variant="ghost" size="icon" className="text-gray-400">
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <div className="flex items-center gap-4 overflow-x-auto px-4">
-            {languages.map((lang) => (
-              <Button
-                key={lang.name}
-                variant="ghost"
-                className="text-gray-500 whitespace-nowrap"
-              >
-                <span className="mr-2">{lang.flag}</span>
-                {lang.name}
-              </Button>
-            ))}
+          <div className="flex items-center gap-4 overflow-x-auto px-4 text-neutral-500">
+            @2024 Enouvo Healthcare Hub
           </div>
-          <Button variant="ghost" size="icon" className="text-gray-400">
-            <ChevronRight className="h-4 w-4" />
-          </Button>
         </div>
       </footer>
     </div>

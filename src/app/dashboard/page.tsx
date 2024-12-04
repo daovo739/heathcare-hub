@@ -1,19 +1,51 @@
 'use client';
 
-import { ArrowRight, Beef, FileClock } from 'lucide-react';
+import { ArrowRight, Beef, FileClock, TriangleAlert } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
+import { generateDashboardPrompt } from '@/utils/dashboard.utils';
 import ButtonCard from '../../components/ButtonCard';
 import { AddFoodDialog } from './AddFoodDialog';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppContext } from '../Provider';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Page() {
   const router = useRouter();
-  const { foodHistories } = useAppContext();
-
+  const {
+    surveyData,
+    generalHealthData,
+    updateGeneralHealthData,
+    foodHistories,
+  } = useAppContext();
   console.log(foodHistories);
 
+  const { data, isLoading, isSuccess } = useQuery({
+    queryKey: ['surveyData'],
+    queryFn: async () => {
+      const prompt = generateDashboardPrompt(surveyData);
+      const ai = await initializeChatbot();
+
+      if ('chatSession' in ai) {
+        return await handleUserInput({
+          userInput: prompt,
+          chatSession: ai.chatSession,
+        });
+      }
+    },
+    refetchOnWindowFocus: false,
+  });
+
   const [openModal, setOpenModal] = useState(false);
+
+  useEffect(() => {
+    if (data?.success) {
+      const healthData = JSON.parse(data?.response);
+      updateGeneralHealthData(healthData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
     <div>
@@ -23,26 +55,23 @@ export default function Page() {
       </div>
 
       <section className="flex flex-col gap-16">
-        <div className="text-neutral-900 bg-white p-4 px-6 rounded-lg max-h-[16rem] overflow-auto">
+        <div className="text-neutral-900 bg-white p-4 px-6 rounded-lg max-h-[16rem] overflow-auto relative">
+          {isLoading && (
+            <div className="space-y-2">
+              <Skeleton className="w-full h-4" />
+              <Skeleton className="w-full h-4" />
+              <Skeleton className="w-full h-4" />
+              <Skeleton className="w-full h-4" />
+              <Skeleton className="w-full h-4" />
+            </div>
+          )}
+          {!isLoading &&
+            isSuccess &&
+            generalHealthData?.status?.name?.toLowerCase() === 'cảnh báo' && (
+              <TriangleAlert className="text-warning" />
+            )}
           <span className="italic text-base">
-            Đây là khu vực cho lời khuyên. Lorem ipsum, dolor sit amet
-            consectetur adipisicing elit. Consectetur voluptate fugiat error
-            consequatur illum! Eos iure voluptates, perferendis id dignissimos
-            quis velit! Dignissimos beatae architecto aperiam fuga culpa quam
-            sed. Dolores soluta illum a magnam corporis dolor possimus ipsum
-            assumenda eos sapiente earum veritatis cum porro laborum, vitae
-            eaque quidem voluptatem sunt. Natus saepe laborum velit facilis
-            tempora, est voluptatibus. Eveniet molestiae quas quasi corporis
-            commodi libero voluptatem fugiat, quo illo optio perferendis unde
-            rem dicta nihil in animi pariatur magnam soluta earum eligendi natus
-            sunt officia placeat? Deserunt, cumque? Repellendus mollitia atque
-            aliquid eius deleniti, tempora dolorem illo beatae a dolores
-            consequuntur? Harum animi voluptatum adipisci similique, repudiandae
-            doloribus quo deserunt hic, voluptas ex tenetur aut. Magnam, ea
-            quibusdam? Ipsum recusandae inventore temporibus, omnis perspiciatis
-            est dicta et saepe, natus earum consequatur, deleniti quis numquam!
-            In asperiores, voluptates accusantium fuga vel porro fugiat
-            exercitationem ipsum atque laboriosam rerum cumque?
+            {!isLoading && isSuccess && generalHealthData?.status?.situation}
           </span>
         </div>
 
@@ -55,7 +84,8 @@ export default function Page() {
             </div>
             <div className="text-center mb-4">
               <span className="text-4xl font-semibold text-gray-900">
-                600/ 2000
+                {generalHealthData?.energy?.caloIn ?? '?'} /{' '}
+                {generalHealthData?.energy?.caloTarget ?? '?'}
               </span>
             </div>
             <div className="flex items-center justify-center mb-2">
