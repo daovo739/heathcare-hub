@@ -34,13 +34,8 @@ export default function RootLayout({
           <div className="flex h-screen">
             <Sidebar />
             <main className="flex flex-col flex-1">
-              {/* Navbar */}
-              <div className="h-16 bg-gray-800 text-white flex items-center px-4">
-                <h1 className="text-lg font-bold">Dashboard</h1>
-              </div>
-
               {/* Main Content */}
-              <div className="flex-1 p-6 bg-gray-100 overflow-y-auto">
+              <div className="flex-1 p-12 bg-[#F7F5F1] overflow-y-auto">
                 {children}
               </div>
             </main>
