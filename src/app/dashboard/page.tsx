@@ -40,7 +40,7 @@ export default function Page() {
 
         <div className="grid grid-cols-3 gap-4">
           {/* Calo */}
-          <div className="max-w-sm mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 cursor-pointer w-full">
+          <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 cursor-pointer w-full">
             <div className="flex items-center mb-4">
               <span className="text-2xl text-blue-500 mr-2">🌡️</span>
               <h2 className="text-lg font-bold text-gray-800">Calo tiêu thụ</h2>
@@ -61,7 +61,7 @@ export default function Page() {
           </div>
 
           {/* Thông tin bữa ăn */}
-          <div className="max-w-sm mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full">
+          <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full">
             <div className="flex items-center justify-center mb-4">
               <Beef className="text-red-500" size={32} />
             </div>
@@ -73,7 +73,7 @@ export default function Page() {
           </div>
 
           {/* history */}
-          <div className="max-w-sm mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full">
+          <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 flex flex-col justify-center cursor-pointer w-full">
             <div className="flex items-center justify-center mb-4">
               <FileClock className="text-neutral-600" size={32} />
             </div>

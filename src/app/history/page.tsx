@@ -19,15 +19,11 @@ const getLogHistory = async () => {
 export default async function Page() {
   const logs = await getLogHistory();
 
-  console.log(logs);
-
   return (
     <div>
       <h1 className="text-2xl font-bold">Lịch sử các đề xuất dinh dưỡng</h1>
 
       {logs.map((log) => {
-        console.log(parseFormattedText(log.botResponse));
-
         return (
           <Accordion type="single" collapsible className="w-full" key={log.id}>
             <AccordionItem value="item-1">
