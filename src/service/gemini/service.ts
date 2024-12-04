@@ -1,4 +1,7 @@
 import {ChatSession, GoogleGenerativeAI, HarmBlockThreshold, HarmCategory} from "@google/generative-ai";
+import {collection, doc, getDocs, orderBy, query, setDoc} from "firebase/firestore";
+import {db} from "@/utils/firebaseConfig";
+import {CollectDataForm} from "@/app/w/CollectData";
 
 const GENERATION_CONFIG = {
     temperature: 0.9,
@@ -34,19 +37,58 @@ export async function initializeChatbot(): Promise<{ success: true, chatSession:
     }
 }
 
-export async function handleUserInput(userInput: string, chatSession?: ChatSession): Promise<{
+export async function handleUserInput(input: {
+    dataForm?: CollectDataForm,
+    userInput: string,
+    chatSession?: ChatSession
+}): Promise<{
     success: true,
     response: string
 } | { success: false, error: string }> {
+    const {dataForm, userInput, chatSession} = input
     if (!chatSession) {
         return {success: false, error: "Chatbot not initialized. Please refresh the page."};
     }
 
     try {
         const result = await chatSession.sendMessage(userInput);
-
+        if (dataForm) await saveChatLog(dataForm, result.response.text())
         return {success: true, response: result.response.text()};
     } catch (error) {
         return {success: false, error: (error as Error).message};
+    }
+}
+
+export async function saveChatLog(dataForm: CollectDataForm, botResponse: string): Promise<void> {
+    try {
+        const chatLogRef = doc(db, "chatLogs", Date.now().toString());
+        await setDoc(chatLogRef, {
+            dataForm,
+            botResponse,
+            timestamp: new Date().toISOString(),
+        });
+        console.log("Chat log saved successfully!");
+    } catch (error) {
+        console.error("Error saving chat log:", error);
+    }
+}
+
+export async function getChatLogs() {
+    try {
+        const chatLogsRef = collection(db, "chatLogs");
+
+        const queryBuilder = query(chatLogsRef, orderBy("timestamp", "asc"));
+
+        const querySnapshot = await getDocs(queryBuilder);
+
+        return querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...(doc.data() as CollectDataForm),
+        }));
+
+
+    } catch (error) {
+        console.error("Error fetching chat logs:", error);
+        throw new Error("Unable to fetch chat logs.");
     }
 }

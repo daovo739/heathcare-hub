@@ -1,7 +1,7 @@
 "use client";
 import {useEffect, useState} from "react";
 import Image from "next/image";
-import {handleUserInput, initializeChatbot} from "@/service/gemini/service";
+import {getChatLogs, handleUserInput, initializeChatbot} from "@/service/gemini/service";
 import {ChatSession} from "@google/generative-ai";
 
 export default function Home() {
@@ -18,6 +18,7 @@ export default function Home() {
                 setIsInitialized(true);
                 setChatSession(result.chatSession)
                 setMessages([{sender: "bot", text: "Chatbot initialized. How can I help you?"}]);
+                console.log(JSON.stringify(await getChatLogs()))
             } else {
                 setError(result.error);
                 setMessages([{sender: "bot", text: `Error initializing chatbot: ${result.error}`}]);
@@ -33,7 +34,7 @@ export default function Home() {
         setMessages((prev) => [...prev, {sender: "user", text: input}]);
         setInput("");
 
-        const response = await handleUserInput(input, chatSession);
+        const response = await handleUserInput({userInput: input, chatSession});
         if (response.success) {
             setMessages((prev) => [...prev, {sender: "bot", text: response.response}]);
         } else {
