@@ -3,9 +3,29 @@
 import { ArrowRight, Beef, FileClock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import ButtonCard from '../ButtonCard';
+import { useAppContext } from '@/contexts/AppContext';
+import { useQuery } from '@tanstack/react-query';
+import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
+import { generateDashboardPrompt } from '@/utils/dashboard.utils';
 
 export default function Page() {
   const router = useRouter();
+  const { surveyData } = useAppContext();
+
+  const { data, isLoading, isSuccess } = useQuery({
+    queryKey: ['surveyData'],
+    queryFn: async () => {
+      const prompt = generateDashboardPrompt(surveyData);
+      const ai = await initializeChatbot();
+
+      if ('chatSession' in ai) {
+        return await handleUserInput({
+          userInput: prompt,
+          chatSession: ai.chatSession,
+        });
+      }
+    },
+  });
 
   return (
     <div>
@@ -15,26 +35,28 @@ export default function Page() {
       </div>
 
       <section className="flex flex-col gap-16">
-        <div className="text-neutral-900 bg-white p-4 px-6 rounded-lg max-h-[16rem] overflow-auto">
+        <div className="text-neutral-900 bg-white p-4 px-6 rounded-lg max-h-[16rem] overflow-auto  relative before:absolute before:inset-0 top-0 before:bg-white/60 before:blur-lg">
           <span className="italic text-base">
-            Đây là khu vực cho lời khuyên. Lorem ipsum, dolor sit amet
-            consectetur adipisicing elit. Consectetur voluptate fugiat error
-            consequatur illum! Eos iure voluptates, perferendis id dignissimos
-            quis velit! Dignissimos beatae architecto aperiam fuga culpa quam
-            sed. Dolores soluta illum a magnam corporis dolor possimus ipsum
-            assumenda eos sapiente earum veritatis cum porro laborum, vitae
-            eaque quidem voluptatem sunt. Natus saepe laborum velit facilis
-            tempora, est voluptatibus. Eveniet molestiae quas quasi corporis
-            commodi libero voluptatem fugiat, quo illo optio perferendis unde
-            rem dicta nihil in animi pariatur magnam soluta earum eligendi natus
-            sunt officia placeat? Deserunt, cumque? Repellendus mollitia atque
-            aliquid eius deleniti, tempora dolorem illo beatae a dolores
-            consequuntur? Harum animi voluptatum adipisci similique, repudiandae
-            doloribus quo deserunt hic, voluptas ex tenetur aut. Magnam, ea
-            quibusdam? Ipsum recusandae inventore temporibus, omnis perspiciatis
-            est dicta et saepe, natus earum consequatur, deleniti quis numquam!
-            In asperiores, voluptates accusantium fuga vel porro fugiat
-            exercitationem ipsum atque laboriosam rerum cumque?
+            {!isLoading && isSuccess && data?.success
+              ? JSON.parse(data?.response)?.status?.situation
+              : `Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            Consectetur voluptate fugiat error consequatur illum! Eos iure
+            voluptates, perferendis id dignissimos quis velit! Dignissimos
+            beatae architecto aperiam fuga culpa quam sed. Dolores soluta illum
+            a magnam corporis dolor possimus ipsum assumenda eos sapiente earum
+            veritatis cum porro laborum, vitae eaque quidem voluptatem sunt.
+            Natus saepe laborum velit facilis tempora, est voluptatibus. Eveniet
+            molestiae quas quasi corporis commodi libero voluptatem fugiat, quo
+            illo optio perferendis unde rem dicta nihil in animi pariatur magnam
+            soluta earum eligendi natus sunt officia placeat? Deserunt, cumque?
+            Repellendus mollitia atque aliquid eius deleniti, tempora dolorem
+            illo beatae a dolores consequuntur? Harum animi voluptatum adipisci
+            similique, repudiandae doloribus quo deserunt hic, voluptas ex
+            tenetur aut. Magnam, ea quibusdam? Ipsum recusandae inventore
+            temporibus, omnis perspiciatis est dicta et saepe, natus earum
+            consequatur, deleniti quis numquam! In asperiores, voluptates
+            accusantium fuga vel porro fugiat exercitationem ipsum atque
+            laboriosam rerum cumque?`}
           </span>
         </div>
 

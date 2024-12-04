@@ -1,23 +1,24 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import { ProgressiveContainer } from '../_components/ProgressiveContainer';
 import { useSurveyContext } from '../_contexts/SurveyContext';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useAppContext } from '@/contexts/AppContext';
 
 export default function CompletePage() {
   const router = useRouter();
+  const { updateSurveyData } = useAppContext();
   const { form } = useSurveyContext();
   const surveyData = form.getValues();
   const {
     handleSubmit,
     formState: { errors },
   } = form;
-  console.log({ errors });
 
   const onSubmit = () => {
+    updateSurveyData(surveyData);
     router.push('/dashboard');
   };
 

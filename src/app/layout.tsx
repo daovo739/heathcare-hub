@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { Provider } from './Provider';
+import { AppProvider } from '@/contexts/AppContext';
 
 const dinRoundSans = localFont({
   src: [
@@ -43,7 +44,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dinRoundSans.className} antialiased`}>
-        <Provider>{children}</Provider>
+        <AppProvider>
+          <Provider>{children}</Provider>
+        </AppProvider>
       </body>
     </html>
   );
