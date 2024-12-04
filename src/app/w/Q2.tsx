@@ -3,18 +3,18 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion'
-import { Heading } from './Heading'
-import { exclusions } from './options'
-import { Button } from '@/components/ui/button'
-import { CollectDataForm } from './CollectData'
-import { useFormContext } from 'react-hook-form'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/accordion';
+import { Heading } from './Heading';
+import { exclusions } from './options';
+import { Button } from '@/components/ui/button';
+import { CollectDataForm } from './CollectData';
+import { useFormContext } from 'react-hook-form';
+import { cn } from '@/lib/utils';
 
 export function Q2() {
-  const { setValue, watch } = useFormContext<CollectDataForm>()
+  const { setValue, watch } = useFormContext<CollectDataForm>();
 
-  const currentExclusions = watch('exclude')
+  const currentExclusions = watch('exclude');
 
   return (
     <div>
@@ -27,7 +27,7 @@ export function Q2() {
       <div className="mb-6">
         <h2 className="text-lg font-semibold mb-3">Loại trừ phổ biến</h2>
         <div className="flex flex-wrap gap-2">
-          {exclusions.at(0)?.items?.map(item => (
+          {exclusions.at(0)?.items?.map((item) => (
             <Button
               variant="outline"
               className={cn('rounded-md hover:bg-blue-600 hover:text-white', {
@@ -38,10 +38,11 @@ export function Q2() {
                 setValue(
                   'exclude',
                   currentExclusions.includes(item)
-                    ? currentExclusions.filter(i => i !== item)
+                    ? currentExclusions.filter((i) => i !== item)
                     : [...currentExclusions, item]
-                )
+                );
               }}
+              type="button"
             >
               {item}
             </Button>
@@ -57,11 +58,11 @@ export function Q2() {
               <h2 className="text-lg font-semibold mb-3">Các loại trừ khác</h2>
             </AccordionTrigger>
             <AccordionContent>
-              {exclusions.at(1)?.subcategories?.map(group => (
+              {exclusions.at(1)?.subcategories?.map((group) => (
                 <div key={group.name} className="flex flex-col">
                   <span className="text-md font-semibold">{group.name}</span>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {group.items.map(item => (
+                    {group.items.map((item) => (
                       <Button
                         variant="outline"
                         key={item}
@@ -76,10 +77,11 @@ export function Q2() {
                           setValue(
                             'exclude',
                             currentExclusions.includes(item)
-                              ? currentExclusions.filter(i => i !== item)
+                              ? currentExclusions.filter((i) => i !== item)
                               : [...currentExclusions, item]
-                          )
+                          );
                         }}
+                        type="button"
                       >
                         {item}
                       </Button>
@@ -92,5 +94,5 @@ export function Q2() {
         </Accordion>
       </div>
     </div>
-  )
+  );
 }
