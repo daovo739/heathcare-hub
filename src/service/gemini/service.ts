@@ -1,4 +1,4 @@
-import {GoogleGenerativeAI, HarmBlockThreshold, HarmCategory} from "@google/generative-ai";
+import {ChatSession, GoogleGenerativeAI, HarmBlockThreshold, HarmCategory} from "@google/generative-ai";
 
 const GENERATION_CONFIG = {
     temperature: 0.9,
@@ -13,38 +13,40 @@ const SAFETY_SETTINGS = [
     {category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE},
 ];
 
-let chatSession = null;
 
-export async function initializeChatbot() {
+export async function initializeChatbot(): Promise<{ success: true, chatSession: ChatSession } | {
+    success: false,
+    error: string
+}> {
     try {
-        const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({model: process.env.NEXT_PUBLIC_MODEL_NAME});
+        const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY ?? '');
+        const model = genAI.getGenerativeModel({model: process.env.NEXT_PUBLIC_MODEL_NAME ?? ''});
 
-        chatSession = model.startChat({
+        const chatSession: ChatSession = model.startChat({
             generationConfig: GENERATION_CONFIG,
             safetySettings: SAFETY_SETTINGS,
             history: [],
         });
 
-        return {success: true};
+        return {success: true, chatSession};
     } catch (error) {
-        return {success: false, error: error.message};
+        return {success: false, error: (error as Error).message};
     }
 }
 
-export async function handleUserInput(userInput) {
+export async function handleUserInput(userInput: string, chatSession?: ChatSession): Promise<{
+    success: true,
+    response: string
+} | { success: false, error: string }> {
     if (!chatSession) {
         return {success: false, error: "Chatbot not initialized. Please refresh the page."};
     }
 
     try {
         const result = await chatSession.sendMessage(userInput);
-        if (result.error) {
-            throw new Error(result.error.message);
-        }
 
         return {success: true, response: result.response.text()};
     } catch (error) {
-        return {success: false, error: error.message};
+        return {success: false, error: (error as Error).message};
     }
 }
