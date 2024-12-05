@@ -45,6 +45,8 @@ export default function ScanPage() {
     mutationFn: async () => {
       if (!file) return;
       const rs = await generateFromImage(file);
+      console.log(rs);
+
       setResultText(rs ?? '');
     },
   });
@@ -81,7 +83,7 @@ export default function ScanPage() {
               <img
                 src={URL.createObjectURL(file)}
                 alt="Uploaded food"
-                className="w-full max-h-80 object-cover rounded-lg"
+                className="w-full max-h-[32rem] object-cover rounded-lg"
               />
               <Button
                 variant="destructive"

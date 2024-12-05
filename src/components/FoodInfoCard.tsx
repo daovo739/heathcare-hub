@@ -8,6 +8,8 @@ interface FoodInfoCardProps {
 }
 
 const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
+  console.log(foodInfo);
+
   return (
     <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-orange-50 to-yellow-50">
       <CardHeader>
