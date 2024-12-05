@@ -167,12 +167,18 @@ export default function Page() {
                       }
                     )}
                   >
-                    {currentKcal > caloTarget ? 'Cần giảm cân' : 'Tốt'}
+                    {currentKcal > caloTarget
+                      ? 'Cần giảm cân'
+                      : currentKcal < caloTarget / 2
+                      ? 'Cần bổ sung thêm'
+                      : 'Cân đối'}
                   </span>
                 </div>
                 <p className="text-sm text-gray-600 text-center">
                   {currentKcal > caloTarget
                     ? 'Bạn cần giảm lượng calo tiêu thụ hàng ngày'
+                    : currentKcal < caloTarget / 2
+                    ? 'Hãy bổ sung thêm calo'
                     : 'Bạn đang ở trạng thái cân đối'}
                 </p>
               </>
