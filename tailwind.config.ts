@@ -77,6 +77,10 @@ const config: Config = {
           DEFAULT: 'hsl(var(--success))',
           foreground: 'hsl(var(--success-foreground))',
         },
+        'toast-success': {
+          DEFAULT: 'hsl(var(--toast-success))',
+          foreground: 'hsl(var(--toast-success-foreground))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

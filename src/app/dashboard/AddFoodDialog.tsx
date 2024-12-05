@@ -6,6 +6,7 @@ import {
   DialogClose,
   DialogContent,
   DialogFooter,
+  DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -92,21 +93,24 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
   return (
     <Dialog open={open}>
       <DialogContent
-        className={cn('h-[90vh] w-[90vh] max-w-[90vh] overflow-auto', {
-          'flex flex-col gap-8': option === 'Thêm từ văn bản',
-        })}
+        className={cn(
+          'h-[90vh] w-[90vh] max-w-[90vh] flex flex-col overflow-auto',
+          {
+            'flex flex-col gap-8': option === 'Thêm từ văn bản',
+          }
+        )}
       >
-        <DialogClose
-          className="w-full flex justify-end cursor-pointer"
-          onClick={() => setOpenModal(false)}
-        >
-          <X />
-        </DialogClose>
-        <DialogTitle className="text-2xl h-fit h-2">
-          <h2>Thêm món ăn</h2>
-        </DialogTitle>
+        <DialogHeader className="flex flex-row justify-between items-center">
+          <DialogTitle className="text-2xl">Thêm món ăn</DialogTitle>
+          <DialogClose
+            className="flex justify-end cursor-pointer"
+            onClick={() => setOpenModal(false)}
+          >
+            <X />
+          </DialogClose>
+        </DialogHeader>
 
-        <div className="flex gap-4 mt-4 w-1/2">
+        <div className="flex gap-4 w-1/2">
           <Button
             variant={'outline'}
             onClick={() => setOption('Thêm thủ công')}
@@ -128,7 +132,7 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
         </div>
 
         {option === 'Thêm thủ công' && (
-          <div>
+          <div className="flex-1 flex flex-col overflow-hidden">
             <h2 className="font-bold text-2xl bg-primary text-white p-2 px-4 rounded-t-lg">
               Tên món ăn
             </h2>
@@ -138,7 +142,8 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <ul className="h-[32rem] overflow-auto rounded-b-lg border-slate-300 border solid ">
+
+            <ul className="flex-1 overflow-auto rounded-b-lg border-slate-300 border solid ">
               {options.map((food, index) => {
                 return (
                   <li
@@ -313,7 +318,9 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
                   toast({
                     title: 'Thành công',
                     description: 'Món ăn đã được thêm vào lịch sử ăn uống',
+                    variant: 'success',
                   });
+                  setSelectedFood(null);
                   return;
                 }
 
