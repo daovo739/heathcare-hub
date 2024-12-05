@@ -35,7 +35,7 @@ const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
               <div className="flex items-center gap-2 mb-2">
                 <Label className="text-primary flex items-center font-bold gap-1">
                   <Calendar className="text-xl" />
-                  <span>Tần suất nên ăn nên ăn:</span>
+                  <span>Tần suất nên ăn:</span>
                 </Label>
                 <span>{food.frequency}</span>
               </div>
