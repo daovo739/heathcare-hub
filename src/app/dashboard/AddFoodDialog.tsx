@@ -21,7 +21,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
 import { useMutation } from '@tanstack/react-query';
-import { Loader2, X } from 'lucide-react';
+import { Heart, Loader2, X } from 'lucide-react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { useAppContext } from '../Provider';
 import { generatePromptFromUser } from './actions';
@@ -255,11 +255,19 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
+            <p className="flex gap-2 italic font-light">
+              Nhập thông tin về các bữa ăn của bạn, nhập càng đầy đủ càng tốt
+              nhé <Heart className="text-primary" />
+            </p>
 
             <div>
               <Button
                 onClick={() => {
-                  if (!text) return;
+                  if (!text)
+                    return toast({
+                      description: 'Vui lòng nhập thông tin bữa ăn',
+                      variant: 'error',
+                    });
                   mutate();
                 }}
                 className=" text-white bg-black hover:bg-black"
@@ -270,7 +278,9 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
             </div>
 
             <div>
-              <h2>Danh sách món ăn đã được tính toán:</h2>
+              {!!foodGenerated.length && (
+                <h2>Danh sách món ăn đã được tính toán:</h2>
+              )}
               <ul className="max-h-[26rem] overflow-auto">
                 {foodGenerated?.map((food, index) => (
                   <li key={index}>
@@ -357,6 +367,7 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
                   return updatedHistories;
                 });
                 toast({
+                  variant: 'success',
                   title: 'Thành công',
                   description: 'Món ăn đã được thêm vào lịch sử ăn uống',
                 });
