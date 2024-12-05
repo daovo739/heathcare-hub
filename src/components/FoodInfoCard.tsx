@@ -1,101 +1,79 @@
-import React from 'react';
+import { MealAnalysis } from '@/app/gen-image/lib';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Carrot, Clock, Calendar, Info } from 'lucide-react';
-
-interface FoodInfo {
-  name: string;
-  calories: string;
-  servingSize: string;
-  mealSuggestions: {
-    [key: string]: string[];
-  };
-  consumptionFrequency: string;
-  benefits: string[];
-  notes: string[];
-}
+import { Book, Calendar, Carrot, Clock, FileHeart, Heater } from 'lucide-react';
+import { Label } from './ui/label';
 
 interface FoodInfoCardProps {
-  foodInfo: FoodInfo;
+  foodInfo: MealAnalysis[];
 }
 
-const FoodInfoCard: React.FC<FoodInfoCardProps> = ({ foodInfo }) => {
+const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
   return (
-    <Card className="w-full max-w-3xl mx-auto bg-gradient-to-br from-orange-50 to-yellow-50">
+    <Card className="w-full max-w-6xl mx-auto bg-gradient-to-br from-orange-50 to-yellow-50">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-orange-600 flex items-center">
+        <CardTitle className="text-2xl font-bold text-primary flex items-center">
           <Carrot className="w-8 h-8 mr-2" />
-          Thông tin về {foodInfo.name}
+          Thông tin về hình ảnh
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-orange-500 mb-2 flex items-center">
-            <Info className="w-5 h-5 mr-2" />
-            Thông tin chung
-          </h3>
-          <p>
-            Một khẩu phần {foodInfo.name} ({foodInfo.servingSize}) chứa khoảng{' '}
-            <span className="font-bold text-orange-600">
-              {foodInfo.calories}
-            </span>
-            .
-          </p>
-        </div>
+        {foodInfo.map((food, index) => (
+          <div key={index}>
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold text-neutral-900 mb-2 flex items-center">
+                {food.name}
+              </h3>
 
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-orange-500 mb-2 flex items-center">
-            <Clock className="w-5 h-5 mr-2" />
-            Thời điểm ăn
-          </h3>
-          <p className="mb-2">
-            {foodInfo.name} có thể được ăn{' '}
-            <span className="font-bold text-orange-600">bất cứ lúc nào</span>{' '}
-            trong ngày.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            {Object.entries(foodInfo.mealSuggestions).map(
-              ([mealTime, suggestions]) => (
-                <div key={mealTime}>
-                  <h4 className="font-semibold text-orange-400">{mealTime}:</h4>
-                  <ul className="list-disc list-inside">
-                    {suggestions.map((suggestion, index) => (
-                      <li key={index}>{suggestion}</li>
-                    ))}
-                  </ul>
+              <div className="flex items-center gap-2 mb-2">
+                <Label className="text-primary flex items-center font-bold gap-1">
+                  <Clock className="text-xl" />
+                  <span>Thời điểm nên ăn:</span>
+                </Label>
+                <span>{food.suggestedTimes.join(', ')}</span>
+              </div>
+
+              <div className="flex items-center gap-2 mb-2">
+                <Label className="text-primary flex items-center font-bold gap-1">
+                  <Calendar className="text-xl" />
+                  <span>Tần suất nên ăn nên ăn:</span>
+                </Label>
+                <span>{food.frequency}</span>
+              </div>
+
+              <div className="flex items-center gap-2 mb-2">
+                <Label className="text-primary flex items-center font-bold gap-1">
+                  <FileHeart className="text-xl" />
+                  <span>Lợi ích:</span>
+                </Label>
+                <span>{food.benefits}</span>
+              </div>
+
+              <div className="flex flex-col gap-2 mb-2">
+                <Label className="text-primary flex items-center font-bold gap-1">
+                  <Heater className="text-xl" />
+                  <span className="w-full">
+                    Đối tượng nên tránh hoặc hạn chế:
+                  </span>
+                </Label>
+                <div className="flex flex-col">
+                  {food.restrictions.map((restriction, index) => (
+                    <span key={index} className="capitalize">
+                      - {restriction}
+                    </span>
+                  ))}
                 </div>
-              )
-            )}
+              </div>
+
+              <div className="flex flex-col gap-2 mb-2">
+                <Label className="text-primary flex items-center font-bold gap-1">
+                  <Book className="text-xl" />
+                  <span>Lời khuyên:</span>
+                </Label>
+                <span>{food.advice}</span>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-orange-500 mb-2 flex items-center">
-            <Calendar className="w-5 h-5 mr-2" />
-            Tần suất ăn
-          </h3>
-          <p>
-            Tần suất ăn {foodInfo.name} hợp lý cho một chế độ dinh dưỡng lành
-            mạnh là{' '}
-            <span className="font-bold text-orange-600">
-              {foodInfo.consumptionFrequency}
-            </span>
-            .
-          </p>
-        </div>
-
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-orange-500 mb-2">
-            Lợi ích và lưu ý
-          </h3>
-          <ul className="list-disc list-inside space-y-2">
-            {foodInfo.benefits.map((benefit, index) => (
-              <li key={index}>{benefit}</li>
-            ))}
-            {foodInfo.notes.map((note, index) => (
-              <li key={index}>{note}</li>
-            ))}
-          </ul>
-        </div>
+        ))}
       </CardContent>
     </Card>
   );

@@ -1,41 +1,3 @@
-// 'use client';
-
-// import { generateFromImage } from '@/service/gemini/service';
-// import { useState } from 'react';
-
-// export default function Page() {
-//   const [file, setFile] = useState<File | null>(null);
-
-//   return (
-//     <div>
-//       <h1>Gen Image</h1>
-
-//       <input
-//         type="file"
-//         accept="image/*"
-//         onChange={async (e) => {
-//           const file = e.target.files?.[0];
-
-//           if (!file) {
-//             return;
-//           }
-//           setFile(file);
-//         }}
-//       />
-
-//       <button
-//         onClick={async () => {
-//           if (!file) return;
-//           const rs = await generateFromImage(file);
-//           console.log(rs);
-//         }}
-//       >
-//         test
-//       </button>
-//     </div>
-//   );
-// }
-
 'use client';
 
 import FoodInfoCard from '@/components/FoodInfoCard';
@@ -49,23 +11,14 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { generateFromImage } from '@/service/gemini/service';
-import { restructureAIResponse } from '@/utils/genImage.utils';
 import { useMutation } from '@tanstack/react-query';
 import { Camera, Loader2, Upload, X } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { parseFormattedText } from '../w/action';
+import { parseMealSections } from './lib';
 
 export default function ScanPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [result, setResult] = useState<null | {
-    name: string;
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-  }>(null);
   const [resultText, setResultText] = useState('');
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -80,24 +33,8 @@ export default function ScanPage() {
     maxFiles: 1,
   });
 
-  const handleAnalyze = () => {
-    setIsAnalyzing(true);
-    // Simulating analysis delay
-    setTimeout(() => {
-      setResult({
-        name: 'Apple',
-        calories: 95,
-        protein: 0.5,
-        carbs: 25,
-        fat: 0.3,
-      });
-      setIsAnalyzing(false);
-    }, 2000);
-  };
-
   const handleReset = () => {
     setFile(null);
-    setResult(null);
   };
 
   const {
@@ -112,10 +49,8 @@ export default function ScanPage() {
     },
   });
 
-  console.log(parseFormattedText(resultText));
-
   return (
-    <div className="container mx-auto p-4 max-w-2xl">
+    <div className="container mx-auto p-4 max-w-6xl">
       <h1 className="text-3xl font-bold mb-6 text-center">Quét Thực Phẩm</h1>
 
       <Card className="w-full">
@@ -146,7 +81,7 @@ export default function ScanPage() {
               <img
                 src={URL.createObjectURL(file)}
                 alt="Uploaded food"
-                className="w-full h-64 object-cover rounded-lg"
+                className="w-full max-h-80 object-cover rounded-lg"
               />
               <Button
                 variant="destructive"
@@ -181,7 +116,7 @@ export default function ScanPage() {
 
       <p>
         {isSuccess && !!file && (
-          <FoodInfoCard foodInfo={restructureAIResponse(resultText)} />
+          <FoodInfoCard foodInfo={parseMealSections(resultText)} />
         )}
       </p>
     </div>

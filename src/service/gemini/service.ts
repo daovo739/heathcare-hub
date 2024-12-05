@@ -167,7 +167,21 @@ export async function generateFromImage(file: File) {
           mimeType: 'image/jpeg',
         },
       },
-      'Hãy phân tích hình ảnh được tải lên để xác định các món ăn xuất hiện. Sau đó, hãy cung cấp thông tin về:\nCác món ăn đó nên được ăn vào thời điểm nào trong ngày (ví dụ: sáng, trưa, tối, hay bữa phụ).\nTần suất nên ăn mỗi tuần để tốt cho sức khỏe.\nAi nên hạn chế hoặc tránh những món ăn này (ví dụ: người có bệnh tiểu đường, huyết áp cao, béo phì,...).Các lời khuyên hoặc thay thế lành mạnh hơn nếu có.',
+      `
+      Hãy phân tích hình ảnh được tải lên để xác định các món ăn xuất hiện. Sau đó, hãy cung cấp thông tin chi tiết theo định dạng sau:
+
+      **1. [Tên món ăn 1]**
+      - Thời điểm nên ăn: [Sáng/Trưa/Tối/Bữa phụ/Lúc nào cũng được]
+      - Lợi ích: [Ví dụ: cung cấp năng lượng, phù hợp tiêu hóa, v.v.]
+      - Tần suất gợi ý mỗi tuần hoặc mỗi ngày hoặc tháng: [Ví dụ: 2-3 lần/tuần]
+      - Đối tượng nên hạn chế hoặc tránh: [Ví dụ: Người có bệnh tiểu đường, người huyết áp cao]
+      - Lời khuyên hoặc thay thế: [Ví dụ: Thay bằng gạo lứt thay vì gạo trắng, nướng thay vì chiên]
+
+      **2. [Tên món ăn 1]**
+      
+
+      Hãy cung cấp thông tin chi tiết và rõ ràng theo đúng định dạng trên. Với mỗi món ăn sẽ là một section
+      `.trim(),
     ]);
 
     return result.response.text();
