@@ -2,8 +2,10 @@
 
 import { cn } from '@/lib/utils'; // Ensure you have this from shadcn
 import { History, Home, Settings } from 'lucide-react'; // Icons from lucide-react
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import emPi from '@/assets/images/emPi.png';
 
 const menuItems = [
   { name: 'Home', icon: Home, href: '/dashboard' },
@@ -16,12 +18,15 @@ export function Sidebar() {
   return (
     <div className="w-64 bg-white text-neutral-900 flex flex-col pt-8">
       {/* Logo */}
-      <div className="h-16 flex items-center justify-center text-2xl font-bold border-b border-gray-700">
-        EpDiThi
+      <div className="h-16 flex items-center justify-center text-2xl font-bold">
+        <div className="relative size-36">
+          <Image src={emPi} alt="Em Pi" fill className="size-36" priority />
+        </div>
+        <span>EpDiThi</span>
       </div>
 
       {/* Menu Items */}
-      <nav className="flex-1 p-4">
+      <nav className="flex-1 p-4 mt-12  border-t border-gray-700">
         {menuItems.map((item) => (
           <Link
             key={item.name}
