@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
+import { handleUserInput } from '@/service/gemini/service';
 import { useMutation } from '@tanstack/react-query';
 import { Loader2, Pizza } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -44,7 +44,7 @@ export interface CollectDataForm {
 
 export function CollectData() {
   const router = useRouter();
-  const { surveyData } = useAppContext();
+  const { surveyData, chatSession } = useAppContext();
 
   const defaultValues = useMemo<CollectDataForm>(
     () => ({
@@ -86,15 +86,11 @@ export function CollectData() {
     mutationFn: async (data: CollectDataForm) => {
       const prompt = generateNutritionPrompt(data);
 
-      const ai = await initializeChatbot();
-
-      if ('chatSession' in ai) {
-        return await handleUserInput({
-          dataForm: data,
-          userInput: prompt,
-          chatSession: ai.chatSession,
-        });
-      }
+      return await handleUserInput({
+        dataForm: data,
+        userInput: prompt,
+        chatSession: chatSession,
+      });
     },
     onSuccess: (data) => {
       if (data && 'response' in data) {

@@ -6,10 +6,13 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 import { diaryGroup, foodsData } from './dashboard/constants';
 import { createContext } from 'react';
+import { ChatSession } from '@google/generative-ai';
+import { initializeChatbot } from '@/service/gemini/service';
 
 export type DiaryGroup = (typeof diaryGroup)[number];
 
@@ -61,6 +64,7 @@ interface AppContext {
   updateGeneralHealthData: (newData: GeneralHealthData) => void;
   foodHistories: FoodHistory;
   setFoodHistories: Dispatch<SetStateAction<FoodHistory>>;
+  chatSession: ChatSession | undefined;
 }
 
 const AppContext = createContext<AppContext | undefined>(undefined);
@@ -90,6 +94,10 @@ export function Provider({ children }: PropsWithChildren) {
     },
   });
 
+  const [chatSession, setChatSession] = useState<ChatSession | undefined>(
+    undefined
+  );
+
   const updateSurveyData = (newData: Partial<SurveyData>) => {
     setSurveyData((prevData) => ({
       ...prevData,
@@ -109,6 +117,18 @@ export function Provider({ children }: PropsWithChildren) {
     }));
   };
 
+  useEffect(() => {
+    const createChatSession = async () => {
+      const chatSession = await initializeChatbot();
+
+      if ('chatSession' in chatSession) {
+        setChatSession(chatSession.chatSession);
+      }
+    };
+
+    createChatSession();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AppContext.Provider
@@ -119,6 +139,7 @@ export function Provider({ children }: PropsWithChildren) {
           updateSurveyData,
           generalHealthData,
           updateGeneralHealthData,
+          chatSession,
         }}
       >
         {children}

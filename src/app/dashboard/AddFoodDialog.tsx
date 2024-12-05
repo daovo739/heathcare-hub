@@ -18,15 +18,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
+import { handleUserInput } from '@/service/gemini/service';
 import { useMutation } from '@tanstack/react-query';
 import { Heart, Loader2, X } from 'lucide-react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { DiaryGroup, useAppContext } from '../Provider';
 import { generatePromptFromUser } from './actions';
 import { diaryGroup, foodsData } from './constants';
-import { useToast } from '@/hooks/use-toast';
 
 type Foods = typeof foodsData;
 
@@ -44,7 +44,7 @@ interface FoodGenerated {
 }
 
 export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
-  const { setFoodHistories } = useAppContext();
+  const { setFoodHistories, chatSession } = useAppContext();
   const { toast } = useToast();
 
   const [search, setSearch] = useState('');
@@ -67,15 +67,11 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
     mutationFn: async () => {
       const prompt = generatePromptFromUser(text);
 
-      const ai = await initializeChatbot();
-
-      if ('chatSession' in ai) {
-        return await handleUserInput({
-          dataForm: undefined,
-          userInput: prompt,
-          chatSession: ai.chatSession,
-        });
-      }
+      return await handleUserInput({
+        dataForm: undefined,
+        userInput: prompt,
+        chatSession: chatSession,
+      });
     },
     onSuccess: (data) => {
       if (data && 'response' in data) {

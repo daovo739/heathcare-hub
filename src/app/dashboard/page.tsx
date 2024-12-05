@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
+import { handleUserInput } from '@/service/gemini/service';
 import {
   fallBackGeneralHealthData,
   generateDashboardPrompt,
@@ -53,6 +53,7 @@ export default function Page() {
     generalHealthData,
     updateGeneralHealthData,
     foodHistories,
+    chatSession,
   } = useAppContext();
 
   const shouldRefetchGeneralHealthData =
@@ -63,14 +64,11 @@ export default function Page() {
     queryKey: ['surveyData'],
     queryFn: async () => {
       const prompt = generateDashboardPrompt(surveyData);
-      const ai = await initializeChatbot();
 
-      if ('chatSession' in ai) {
-        return await handleUserInput({
-          userInput: prompt,
-          chatSession: ai.chatSession,
-        });
-      }
+      return await handleUserInput({
+        userInput: prompt,
+        chatSession: chatSession,
+      });
     },
     refetchOnWindowFocus: false,
     enabled:
