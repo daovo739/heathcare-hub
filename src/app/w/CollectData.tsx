@@ -2,8 +2,14 @@
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
+import { useMutation } from '@tanstack/react-query';
 import { Loader2, Pizza } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { NutritionResult, Section } from '../../components/NutritionResult';
+import { useAppContext } from '../Provider';
 import { generateNutritionPrompt, parseFormattedText } from './action';
 import { Q1 } from './Q1';
 import { Q2 } from './Q2';
@@ -11,14 +17,7 @@ import { Q3 } from './Q3';
 import { Q4 } from './Q4';
 import { Q5 } from './Q5';
 import { Q6 } from './Q6';
-import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
-import { useMemo, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { NutritionResult, Section } from '../../components/NutritionResult';
-import { NutritionInfo } from '@/components/NutritionInfo';
-import { useAppContext } from '../Provider';
 import { Q7 } from './Q7';
-import { useRouter } from 'next/navigation';
 
 export interface CollectDataForm {
   step: number;

@@ -133,3 +133,30 @@ export async function getChatLogs() {
     throw new Error('Unable to fetch chat logs.');
   }
 }
+
+export async function generateFromImage(base64: string, file: File) {
+  try {
+    const genAI = new GoogleGenerativeAI(
+      process.env.NEXT_PUBLIC_GEMINI_API_KEY ?? ''
+    );
+    const model = genAI.getGenerativeModel({
+      model: process.env.NEXT_PUBLIC_MODEL_NAME ?? '',
+    });
+
+    const rs = await file.arrayBuffer();
+
+    const result = await model.generateContent([
+      {
+        inlineData: {
+          data: Buffer.from(rs).toString('base64'),
+          mimeType: 'image/jpeg',
+        },
+      },
+      'Hãy cho biết thực phẩm trong ảnh là gì, nó bao nhiêu kcal cho một khẩu phần ăn và nên ăn nó vào khi nào, tần suất như thế nào để có chế độ dinh dưỡng hợp lý',
+    ]);
+
+    return result.response.text();
+  } catch (error) {
+    console.log(error);
+  }
+}

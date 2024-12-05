@@ -1,6 +1,20 @@
 'use client';
 
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
+import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
+import {
+  fallBackGeneralHealthData,
+  generateDashboardPrompt,
+} from '@/utils/dashboard.utils';
+import { useQuery } from '@tanstack/react-query';
+import {
   ArrowRight,
   BadgeAlert,
   Beef,
@@ -8,28 +22,14 @@ import {
   Sparkles,
   TriangleAlert,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
-import {
-  fallBackGeneralHealthData,
-  generateDashboardPrompt,
-} from '@/utils/dashboard.utils';
-import ButtonCard from '../../components/ButtonCard';
-import { AddFoodDialog } from './AddFoodDialog';
-import { useEffect, useState } from 'react';
-import { useAppContext } from '../Provider';
-import { Skeleton } from '@/components/ui/skeleton';
-import { calculateTotalKcal } from './lib';
-import { diaryGroup } from './constants';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import ButtonCard from '../../components/ButtonCard';
+import { useAppContext } from '../Provider';
+import { AddFoodDialog } from './AddFoodDialog';
+import { diaryGroup } from './constants';
+import { calculateTotalKcal } from './lib';
 
 const GeneralHealthInfoTag = ({ statusName }: { statusName?: string }) => {
   switch (statusName) {
@@ -86,6 +86,7 @@ export default function Page() {
       try {
         const healthData = JSON.parse(data?.response);
         updateGeneralHealthData(healthData);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_) {
         updateGeneralHealthData(fallBackGeneralHealthData);
       }
@@ -227,7 +228,10 @@ export default function Page() {
                 hero="Đi đến trang đề xuất"
               />
             </div>
-            <div className="mx-auto p-4 h-[9.5rem] bg-white shadow-lg rounded-lg border border-gray-200 cursor-pointer w-full">
+            <div
+              className="mx-auto p-4 h-[9.5rem] bg-white shadow-lg rounded-lg border border-gray-200 cursor-pointer w-full"
+              onClick={() => router.push('/gen-image')}
+            >
               <ButtonCard
                 title="Scan thực phẩm của bạn"
                 subtitle="Sử dụng hình ảnh để phân tích thành phần dinh dưỡng và nhận đề xuất bữa ăn phù hợp"
