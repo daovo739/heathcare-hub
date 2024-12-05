@@ -16,15 +16,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { cn } from '@/lib/utils';
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { diaryGroup, foodsData } from './constants';
-import { Loader2, X } from 'lucide-react';
-import { FoodHistory, useAppContext } from '../Provider';
 import { Textarea } from '@/components/ui/textarea';
-import { useMutation } from '@tanstack/react-query';
+import { cn } from '@/lib/utils';
 import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
+import { useMutation } from '@tanstack/react-query';
+import { Loader2, X } from 'lucide-react';
+import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { useAppContext } from '../Provider';
 import { generatePromptFromUser } from './actions';
+import { diaryGroup, foodsData } from './constants';
 
 type Foods = typeof foodsData;
 
@@ -46,7 +46,9 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
 
   const [search, setSearch] = useState('');
   const [selectedFood, setSelectedFood] = useState<Foods[number] | null>(null);
-  const [diary, setDiary] = useState<FoodHistory['diaryGroup']>(diaryGroup[0]);
+  const [diary, setDiary] = useState<(typeof diaryGroup)[number]>(
+    diaryGroup[0]
+  );
   const [unit, setUnit] = useState<Foods[number]['units'][number] | undefined>(
     undefined
   );
@@ -293,40 +295,54 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
                 if (option === 'Thêm thủ công') {
                   if (!selectedFood || !unit || !diary) return;
 
-                  setFoodHistories((prev) => [
+                  setFoodHistories((prev) => ({
                     ...prev,
-                    {
-                      foods: selectedFood,
-                      diaryGroup: diary,
-                      quantity,
-                      totalKcal: (unit.kcal ?? 0) * quantity,
-                    },
-                  ]);
+                    [diary]: [
+                      ...(prev[diary] ?? []),
+                      {
+                        diaryGroup: diary,
+                        foods: selectedFood,
+                        quantity,
+                        totalKcal: (unit.kcal ?? 0) * quantity,
+                        unit: unit.unit,
+                      },
+                    ],
+                  }));
                   return;
                 }
 
-                const rs: FoodHistory[] = foodGenerated.map((food) => ({
-                  quantity: food.quantity,
-                  totalKcal: food.calories,
-                  diaryGroup: food.mealTime,
-                  foods: {
-                    name: food.dish,
-                    nutrition: {
-                      carbs: '',
-                      fat: '',
-                      protein: '',
-                    },
-                    units: [
-                      {
-                        kcal: 0,
-                        unit: food.unit,
-                        weight: '',
-                      },
-                    ],
-                  },
-                }));
+                setFoodHistories((prev) => {
+                  const updatedHistories = { ...prev };
 
-                setFoodHistories((prev) => [...prev, ...rs]);
+                  foodGenerated.forEach((food) => {
+                    updatedHistories[food.mealTime] = [
+                      ...updatedHistories[food.mealTime],
+                      {
+                        diaryGroup: food.mealTime,
+                        foods: {
+                          name: food.dish,
+                          nutrition: {
+                            carbs: '',
+                            fat: '',
+                            protein: '',
+                          },
+                          units: [
+                            {
+                              kcal: food.calories,
+                              unit: food.unit,
+                              weight: '',
+                            },
+                          ],
+                        },
+                        quantity: food.quantity,
+                        totalKcal: food.calories,
+                        unit: food.unit,
+                      },
+                    ];
+                  });
+
+                  return updatedHistories;
+                });
               }}
             >
               Thêm món ăn

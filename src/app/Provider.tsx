@@ -11,12 +11,17 @@ import {
 import { diaryGroup, foodsData } from './dashboard/constants';
 import { createContext } from 'react';
 
-export interface FoodHistory {
-  diaryGroup: (typeof diaryGroup)[number];
-  foods: (typeof foodsData)[number];
-  quantity: number;
-  totalKcal: number;
-}
+export type DiaryGroup = (typeof diaryGroup)[number];
+
+export type FoodHistory = {
+  [key in DiaryGroup[number]]: {
+    diaryGroup: DiaryGroup[number];
+    foods: (typeof foodsData)[number];
+    quantity: number;
+    totalKcal: number;
+    unit?: string;
+  }[];
+};
 
 export type SurveyData = {
   goals: string[];
@@ -51,12 +56,12 @@ export type GeneralHealthData = {
 };
 
 interface AppContext {
-  foodHistories: FoodHistory[];
-  setFoodHistories: Dispatch<SetStateAction<FoodHistory[]>>;
   surveyData: SurveyData;
   updateSurveyData: (newData: Partial<SurveyData>) => void;
   generalHealthData: GeneralHealthData | null;
   updateGeneralHealthData: (newData: GeneralHealthData) => void;
+  foodHistories: FoodHistory;
+  setFoodHistories: Dispatch<SetStateAction<FoodHistory>>;
 }
 
 const AppContext = createContext<AppContext | undefined>(undefined);
@@ -64,7 +69,13 @@ const AppContext = createContext<AppContext | undefined>(undefined);
 const queryClient = new QueryClient();
 
 export function Provider({ children }: PropsWithChildren) {
-  const [foodHistories, setFoodHistories] = useState<FoodHistory[]>([]);
+  const [foodHistories, setFoodHistories] = useState<FoodHistory>({
+    'Bữa sáng': [],
+    'Bữa trưa': [],
+    'Bữa tối': [],
+    'Bữa phụ': [],
+    'Ăn vặt': [],
+  });
 
   const [surveyData, setSurveyData] = useState<SurveyData>({
     goals: [],
