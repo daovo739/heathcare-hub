@@ -25,6 +25,7 @@ import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { useAppContext } from '../Provider';
 import { generatePromptFromUser } from './actions';
 import { diaryGroup, foodsData } from './constants';
+import { useToast } from '@/hooks/use-toast';
 
 type Foods = typeof foodsData;
 
@@ -43,6 +44,7 @@ interface FoodGenerated {
 
 export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
   const { setFoodHistories } = useAppContext();
+  const { toast } = useToast();
 
   const [search, setSearch] = useState('');
   const [selectedFood, setSelectedFood] = useState<Foods[number] | null>(null);
@@ -308,6 +310,10 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
                       },
                     ],
                   }));
+                  toast({
+                    title: 'Thành công',
+                    description: 'Món ăn đã được thêm vào lịch sử ăn uống',
+                  });
                   return;
                 }
 
@@ -342,6 +348,10 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
                   });
 
                   return updatedHistories;
+                });
+                toast({
+                  title: 'Thành công',
+                  description: 'Món ăn đã được thêm vào lịch sử ăn uống',
                 });
               }}
             >

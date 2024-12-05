@@ -1,4 +1,4 @@
-import { SurveyData } from '@/contexts/AppContext';
+import { SurveyData } from '@/app/Provider';
 
 export function generateDashboardPrompt(data: SurveyData): string {
   const { goals, personalInfo, medicalHistory } = data;

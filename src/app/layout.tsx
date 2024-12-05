@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { Provider } from './Provider';
+import { Toaster } from '@/components/ui/toaster';
 
 const dinRoundSans = localFont({
   src: [
@@ -43,6 +44,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${dinRoundSans.className} antialiased`}>
         <Provider>{children}</Provider>
+        <Toaster />
       </body>
     </html>
   );
