@@ -40,7 +40,7 @@ const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
                 <span>{food.frequency}</span>
               </div>
 
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <Label className="text-primary flex items-center font-bold gap-1">
                   <FileHeart className="text-xl" />
                   <span>Lợi ích:</span>
