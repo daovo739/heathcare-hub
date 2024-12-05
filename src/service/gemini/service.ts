@@ -134,7 +134,7 @@ export async function getChatLogs() {
   }
 }
 
-export async function generateFromImage(base64: string, file: File) {
+export async function generateFromImage(file: File) {
   try {
     const genAI = new GoogleGenerativeAI(
       process.env.NEXT_PUBLIC_GEMINI_API_KEY ?? ''
