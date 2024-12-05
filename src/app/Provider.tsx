@@ -14,7 +14,7 @@ import { createContext } from 'react';
 export type DiaryGroup = (typeof diaryGroup)[number];
 
 export type FoodHistory = {
-  [key in DiaryGroup[number]]: {
+  [key in DiaryGroup]: {
     diaryGroup: DiaryGroup[number];
     foods: (typeof foodsData)[number];
     quantity: number;

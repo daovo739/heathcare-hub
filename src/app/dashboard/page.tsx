@@ -54,7 +54,6 @@ export default function Page() {
     updateGeneralHealthData,
     foodHistories,
   } = useAppContext();
-  console.log(foodHistories);
 
   const shouldRefetchGeneralHealthData =
     generalHealthData?.status?.situation ===

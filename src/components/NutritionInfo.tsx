@@ -36,6 +36,13 @@ export const NutritionInfo = ({ data }: { data: CollectDataForm }) => {
             ? data.exclude.join(', ')
             : 'Không có thực phẩm bị loại trừ'}
         </p>
+        <p>
+          Bệnh nền:{' '}
+          {data.medicalHistory.length > 0
+            ? data.medicalHistory.join(', ')
+            : 'Không có'}
+        </p>
+        <p>Lưu ý: {data.noteMedicalHistory || 'Không có'}</p>
       </div>
     </div>
   );

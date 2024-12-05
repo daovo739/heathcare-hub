@@ -11,7 +11,7 @@ import { Controller } from 'react-hook-form';
 import { ProgressiveContainer } from '../_components/ProgressiveContainer';
 import { useSurveyContext } from '../_contexts/SurveyContext';
 
-const medicalConditions = [
+export const medicalConditions = [
   'Bệnh tiểu đường',
   'Tăng huyết áp',
   'Bệnh tim',
