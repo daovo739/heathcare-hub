@@ -1,3 +1,4 @@
+import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
@@ -35,6 +36,11 @@ export const metadata: Metadata = {
   description: 'Enouvo Healthcare Hub',
 };
 
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dinRoundSans.className} antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         <Provider>{children}</Provider>
         <Toaster />
       </body>
