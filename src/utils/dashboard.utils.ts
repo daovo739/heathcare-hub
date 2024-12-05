@@ -27,7 +27,6 @@ Chào bạn, Tôi hiện tại Cao ${heightInMeters}m Nặng ${
 Tiểu sử bệnh lý: ${medicalConditions}${otherCondition}
 Môi trường: Làm ngành IT cho nên cần tiếp xúc máy tính nhiều ở văn phòng và ở nhà, ít vận động
 Mục tiêu của tôi: ${goals.join(', ')}
-Thời hạn mong muốn đạt mục tiêu: 1 tháng
 Dựa trên những thông tin trên Hãy đưa cho tôi kế hoạch chi tiết giúp tôi, bao gồm số năng lượng cần tiêu hao, thời gian trong ngày nên ăn bữa. Hãy cho tôi lời khuyên khi tôi thực hiện một hoạt động mới
 Khi tôi cập nhật các hoạt động của tôi, bạn hãy luôn luôn cập nhật status Collection giúp tôi nhé!
 Chỉ đưa ra format JSON mà tôi có thể sử dụng JSON.parse() từ Javascript, không cần thông tin khác
@@ -47,6 +46,7 @@ mealSchedule: {
   advice: string
 }
   đừng bọc json trong \`\`\`json\n\`\`\`
+Nếu các thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lí không tồn tại thì hãy cảnh báo người dùng cần nhập đầy đủ thông tin trước khi muốn xem đánh giá và status.situation nên trả về "Vui lòng nhập đầy đủ thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lý để đánh giá.", status.name nên trả về "Cảnh báo", status.level nên trả về 2. Nếu các thông tin đã được nhập lại, thì hãy trả về kết quả theo như đánh giá của bạn.
 `.trim();
 
   return prompt;

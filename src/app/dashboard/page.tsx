@@ -29,6 +29,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const GeneralHealthInfoTag = ({ statusName }: { statusName?: string }) => {
   switch (statusName) {
@@ -55,7 +56,11 @@ export default function Page() {
   } = useAppContext();
   console.log(foodHistories);
 
-  const { data, isLoading, isSuccess } = useQuery({
+  const shouldRefetchGeneralHealthData =
+    generalHealthData?.status?.situation ===
+    'Vui lòng nhập đầy đủ thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lý để đánh giá.';
+
+  const { data, isFetching, isSuccess } = useQuery({
     queryKey: ['surveyData'],
     queryFn: async () => {
       const prompt = generateDashboardPrompt(surveyData);
@@ -69,7 +74,9 @@ export default function Page() {
       }
     },
     refetchOnWindowFocus: false,
-    enabled: !!surveyData && !generalHealthData,
+    enabled:
+      (!!surveyData && !generalHealthData) ||
+      (!!generalHealthData && shouldRefetchGeneralHealthData),
   });
   const currentKcal = calculateTotalKcal(foodHistories);
 
@@ -98,7 +105,7 @@ export default function Page() {
 
       <section className="flex flex-col gap-16">
         <div className="text-neutral-900 bg-white p-4 px-6 rounded-lg max-h-[16rem] overflow-auto relative">
-          {isLoading && (
+          {isFetching && (
             <div className="space-y-2">
               <Skeleton className="w-full h-4" />
               <Skeleton className="w-full h-4" />
@@ -107,46 +114,71 @@ export default function Page() {
               <Skeleton className="w-full h-4" />
             </div>
           )}
-          {!isLoading && isSuccess && (
+          {!isFetching && isSuccess && (
             <GeneralHealthInfoTag
               statusName={generalHealthData?.status?.name?.toLowerCase()}
             />
           )}
           <span className="italic text-base">
-            {!isLoading && isSuccess && generalHealthData?.status?.situation}
+            {!isFetching && isSuccess && generalHealthData?.status?.situation}
           </span>
+          {!isFetching &&
+            isSuccess &&
+            generalHealthData?.status?.situation ===
+              'Vui lòng nhập đầy đủ thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lý để đánh giá.' && (
+              <Link
+                href="/get-started"
+                className="text-info italic text-base underline"
+              >
+                Trở lại khảo sát.
+              </Link>
+            )}
         </div>
 
         <div className="grid grid-cols-3 gap-4">
           {/* Calo */}
           <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 cursor-pointer w-full">
-            <div className="flex items-center mb-4">
-              <span className="text-2xl text-blue-500 mr-2">🌡️</span>
-              <h2 className="text-lg font-bold text-gray-800">Kcal tiêu thụ</h2>
-            </div>
-            <div className="text-center mb-4">
-              <span className="text-4xl font-semibold text-gray-900">
-                <span className="text-primary">{currentKcal}</span> /{' '}
-                <span className="text-blue-400">{caloTarget ?? '?'}</span>
-              </span>
-            </div>
-            <div className="flex items-center justify-center mb-2">
-              <span
-                className={cn(
-                  'px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-lg',
-                  {
-                    'bg-red-100 text-red-700': currentKcal > caloTarget,
-                  }
-                )}
-              >
-                {currentKcal > caloTarget ? 'Cần giảm cân' : 'Tốt'}
-              </span>
-            </div>
-            <p className="text-sm text-gray-600 text-center">
-              {currentKcal > caloTarget
-                ? 'Bạn cần giảm lượng calo tiêu thụ hàng ngày'
-                : 'Bạn đang ở trạng thái cân đối'}
-            </p>
+            {isFetching ? (
+              <div className="space-y-2">
+                <Skeleton className="w-1/3 h-4" />
+                <Skeleton className="w-full h-4" />
+                <Skeleton className="w-full h-4" />
+                <Skeleton className="w-full h-4" />
+                <Skeleton className="w-full h-4" />
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center mb-4">
+                  <span className="text-2xl text-blue-500 mr-2">🌡️</span>
+                  <h2 className="text-lg font-bold text-gray-800">
+                    Kcal tiêu thụ
+                  </h2>
+                </div>
+                <div className="text-center mb-4">
+                  <span className="text-4xl font-semibold text-gray-900">
+                    <span className="text-primary">{currentKcal}</span> /{' '}
+                    <span className="text-blue-400">{caloTarget ?? '?'}</span>
+                  </span>
+                </div>
+                <div className="flex items-center justify-center mb-2">
+                  <span
+                    className={cn(
+                      'px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-lg',
+                      {
+                        'bg-red-100 text-red-700': currentKcal > caloTarget,
+                      }
+                    )}
+                  >
+                    {currentKcal > caloTarget ? 'Cần giảm cân' : 'Tốt'}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-600 text-center">
+                  {currentKcal > caloTarget
+                    ? 'Bạn cần giảm lượng calo tiêu thụ hàng ngày'
+                    : 'Bạn đang ở trạng thái cân đối'}
+                </p>
+              </>
+            )}
           </div>
 
           {/* Thông tin bữa ăn */}
