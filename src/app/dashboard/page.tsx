@@ -120,7 +120,7 @@ export default function Page() {
           )}
           <span className="italic text-base">
             {!isFetching && isSuccess && generalHealthData?.status?.situation}
-          </span>
+          </span>{' '}
           {!isFetching &&
             isSuccess &&
             generalHealthData?.status?.situation ===
