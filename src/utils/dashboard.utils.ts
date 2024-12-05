@@ -47,6 +47,7 @@ mealSchedule: {
 }
   đừng bọc json trong \`\`\`json\n\`\`\`
 Nếu các thông tin về tuổi tác, chiều cao, cân nặng và mục tiêu không tồn tại thì hãy cảnh báo người dùng cần nhập đầy đủ thông tin trước khi muốn xem đánh giá và status.situation nên trả về "Vui lòng nhập đầy đủ thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lý để đánh giá.", status.name nên trả về "Cảnh báo", status.level nên trả về 2. Nếu các thông tin đã được nhập lại, thì hãy trả về kết quả theo như đánh giá của bạn.
+Hãy kiểm tra kĩ thông tin trước khi trả về, vì một số lần tôi đã gửi đầy đủ các thông tin nhưng bạn lại báo cần phải nhập thêm thông tin
 `.trim();
 
   return prompt;
