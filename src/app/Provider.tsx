@@ -41,7 +41,6 @@ export type GeneralHealthData = {
   energy?: {
     caloIn: number | null;
     caloTarget: number | null;
-    date: Date | null;
   };
   status?: {
     name: string | null;

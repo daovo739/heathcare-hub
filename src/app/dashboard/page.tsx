@@ -1,10 +1,20 @@
 'use client';
 
-import { ArrowRight, Beef, FileClock, TriangleAlert } from 'lucide-react';
+import {
+  ArrowRight,
+  BadgeAlert,
+  Beef,
+  FileClock,
+  Sparkles,
+  TriangleAlert,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
-import { generateDashboardPrompt } from '@/utils/dashboard.utils';
+import {
+  fallBackGeneralHealthData,
+  generateDashboardPrompt,
+} from '@/utils/dashboard.utils';
 import ButtonCard from '../../components/ButtonCard';
 import { AddFoodDialog } from './AddFoodDialog';
 import { useEffect, useState } from 'react';
@@ -19,6 +29,21 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
+
+const GeneralHealthInfoTag = ({ statusName }: { statusName?: string }) => {
+  switch (statusName) {
+    case 'tốt':
+      return <Sparkles className="text-success" />;
+
+    case 'cảnh báo':
+      return <TriangleAlert className="text-warning" />;
+
+    case 'nghiêm trọng':
+      return <BadgeAlert className="text-error" />;
+    default:
+      return null;
+  }
+};
 
 export default function Page() {
   const router = useRouter();
@@ -44,6 +69,7 @@ export default function Page() {
       }
     },
     refetchOnWindowFocus: false,
+    enabled: !!surveyData && !generalHealthData,
   });
   const currentKcal = calculateTotalKcal(foodHistories);
 
@@ -51,8 +77,12 @@ export default function Page() {
 
   useEffect(() => {
     if (data?.success) {
-      const healthData = JSON.parse(data?.response);
-      updateGeneralHealthData(healthData);
+      try {
+        const healthData = JSON.parse(data?.response);
+        updateGeneralHealthData(healthData);
+      } catch (_) {
+        updateGeneralHealthData(fallBackGeneralHealthData);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
@@ -77,11 +107,11 @@ export default function Page() {
               <Skeleton className="w-full h-4" />
             </div>
           )}
-          {!isLoading &&
-            isSuccess &&
-            generalHealthData?.status?.name?.toLowerCase() === 'cảnh báo' && (
-              <TriangleAlert className="text-warning" />
-            )}
+          {!isLoading && isSuccess && (
+            <GeneralHealthInfoTag
+              statusName={generalHealthData?.status?.name?.toLowerCase()}
+            />
+          )}
           <span className="italic text-base">
             {!isLoading && isSuccess && generalHealthData?.status?.situation}
           </span>

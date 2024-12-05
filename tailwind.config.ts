@@ -73,6 +73,10 @@ const config: Config = {
           DEFAULT: 'hsl(var(--error))',
           foreground: 'hsl(var(--error-foreground))',
         },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

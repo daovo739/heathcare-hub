@@ -33,8 +33,7 @@ Khi tôi cập nhật các hoạt động của tôi, bạn hãy luôn luôn c�
 Chỉ đưa ra format JSON mà tôi có thể sử dụng JSON.parse() từ Javascript, không cần thông tin khác
 energy: {
   caloIn: number,
-  caloTarget: number,
-  date: Date
+  caloTarget: number
 },
 // Dựa vào thông tin cá nhân và mục tiêu của tôi và đưa ra đánh giá
 status: {
@@ -52,3 +51,21 @@ mealSchedule: {
 
   return prompt;
 }
+
+export const fallBackGeneralHealthData = {
+  energy: {
+    caloIn: 1800,
+    caloTarget: 2000,
+  },
+  status: {
+    name: 'Cảnh báo',
+    level: 2,
+    situation:
+      'Lượng calo nạp vào thấp hơn mục tiêu, bạn nên tăng khẩu phần ăn hoặc thêm bữa nhẹ.',
+  },
+  mealSchedule: {
+    mealType: 'Bữa trưa',
+    time: '12:30',
+    advice: 'Nên bổ sung protein và rau xanh để cân bằng dinh dưỡng.',
+  },
+};
