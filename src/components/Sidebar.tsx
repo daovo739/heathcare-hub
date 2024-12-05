@@ -32,9 +32,9 @@ export function Sidebar() {
             key={item.name}
             href={item.href}
             className={cn(
-              'flex items-center gap-4 p-2 rounded transition text-neutral-600 hover:bg-[#E9FFEA] mb-3',
+              'flex items-center gap-4 p-2 rounded transition text-neutral-600 hover:bg-primary hover:text-primary-foreground mb-3',
               {
-                'bg-[#E9FFEA]': pathname === item.href,
+                'bg-primary text-primary-foreground': pathname === item.href,
               }
             )}
           >
