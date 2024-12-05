@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const menuItems = [
-  { name: 'Home', icon: Home, href: '/dashboard' },
-  { name: 'History', icon: History, href: '/history' },
-  { name: 'Settings', icon: Settings, href: '/settings' },
+  { name: 'Trang chủ', icon: Home, href: '/dashboard' },
+  { name: 'Lịch sử tư vấn', icon: History, href: '/history' },
+  { name: 'Cài đặt', icon: Settings, href: '/settings' },
 ];
 export function Sidebar() {
   const pathname = usePathname();

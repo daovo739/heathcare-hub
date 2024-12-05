@@ -50,8 +50,8 @@ export default function Page() {
   return (
     <div>
       <div className="flex flex-col mb-8">
-        <h1 className="font-bold text-2xl">Health Overview</h1>
-        <span className="text-sm">Dec 6, 2024</span>
+        <h1 className="font-bold text-2xl">Tổng quan sức khỏe</h1>
+        <span className="text-sm">Ngày 6 tháng 12, 2024</span>
       </div>
 
       <section className="flex flex-col gap-16">

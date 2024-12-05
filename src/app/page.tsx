@@ -33,17 +33,17 @@ export default function Home() {
           {/* Hero Content */}
           <div className="w-full md:w-1/2 flex flex-col items-center md:items-start gap-6">
             <h1 className="text-3xl md:text-4xl lg:text-5xl text-center md:text-left font-bold text-gray-700 max-w-md">
-              The free and effective way to keep you healthy!
+              Hãy cùng tôi chăm sóc sức khỏe của bạn!
             </h1>
             <div className="flex flex-col w-full max-w-md gap-3">
               <Button asChild className="w-full h-12 text-lg">
-                <Link href="/get-started">GET STARTED</Link>
+                <Link href="/get-started">BẮT ĐẦU!</Link>
               </Button>
               <Button
                 variant="outline"
                 className="w-full h-12 text-lg text-[#1cb0f6] border-[#1cb0f6]"
               >
-                I ALREADY HAVE AN ACCOUNT
+                <Link href="/get-started">CŨNG BẮT ĐẦU NHƯNG NÚT XANH</Link>
               </Button>
             </div>
           </div>
@@ -54,7 +54,7 @@ export default function Home() {
       <footer className="p-4 border-t">
         <div className="max-w-6xl mx-auto flex items-center justify-center gap-2">
           <div className="flex items-center gap-4 overflow-x-auto px-4 text-neutral-500">
-            @2024 Enouvo Healthcare Hub
+            @2024 Enouvo Healthcare Hub - EDT - Chung toi bi ep di thi
           </div>
         </div>
       </footer>
