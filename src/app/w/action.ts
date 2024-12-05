@@ -47,6 +47,7 @@ export function generateNutritionPrompt(data: CollectDataForm) {
 
 export function parseFormattedText(text: string) {
   const lines = text.split('\n').map((line) => line.trim());
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data: { [key: string]: any } = {};
   let currentSection = null;
   let currentSubsection = null;

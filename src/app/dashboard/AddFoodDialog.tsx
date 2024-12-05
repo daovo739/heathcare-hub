@@ -23,7 +23,7 @@ import { handleUserInput, initializeChatbot } from '@/service/gemini/service';
 import { useMutation } from '@tanstack/react-query';
 import { Heart, Loader2, X } from 'lucide-react';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { useAppContext } from '../Provider';
+import { DiaryGroup, useAppContext } from '../Provider';
 import { generatePromptFromUser } from './actions';
 import { diaryGroup, foodsData } from './constants';
 import { useToast } from '@/hooks/use-toast';
@@ -193,7 +193,7 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
                 {/* Right Section */}
                 <div className="flex-1 space-y-4 col-span-1">
                   <Select
-                    onValueChange={(val) => setDiary(val as any)}
+                    onValueChange={(val) => setDiary(val as DiaryGroup)}
                     value={diary}
                   >
                     <SelectTrigger

@@ -1,4 +1,3 @@
-import { Arrow } from '@radix-ui/react-select';
 import { ArrowRight } from 'lucide-react';
 
 type ButtonCardProps = {
