@@ -88,6 +88,7 @@ export function Q5() {
               min={1}
               prefix="kg"
               className="w-16"
+              value={personalInfo.height}
               onChange={(e) => setValue('personalInfo.height', +e.target.value)}
             />
             <span className="mt-2 ml-2">cm</span>
@@ -102,6 +103,7 @@ export function Q5() {
               min={1}
               prefix="kg"
               className="w-16"
+              value={personalInfo.weight}
               onChange={(e) => setValue('personalInfo.weight', +e.target.value)}
             />
             <span className="mt-2 ml-2">kg</span>
@@ -116,6 +118,7 @@ export function Q5() {
               min={1}
               prefix="kg"
               className="w-16"
+              value={personalInfo.age}
               onChange={(e) => setValue('personalInfo.age', +e.target.value)}
             />
             <span className="mt-2 ml-2">years</span>

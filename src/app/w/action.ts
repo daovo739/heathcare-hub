@@ -18,6 +18,8 @@ export function generateNutritionPrompt(data: CollectDataForm) {
   - Loại thực phẩm loại trừ: ${
     data.exclude.length > 0 ? data.exclude.join(', ') : 'Không có'
   }
+  - Bệnh nền: ${data.medicalHistory.join(', ') || 'Không có'}
+  - Lưu ý bệnh nền: ${data.noteMedicalHistory || 'Không có'}
   
   Hãy cung cấp thông tin theo định dạng sau:
 

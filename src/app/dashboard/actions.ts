@@ -26,6 +26,7 @@ export const generatePromptFromUser = (userInput: string) => {
     }
     ]
 
+    nếu không có kcal hãy tự tính toán dựa trên khẩu phần ăn của 1 người bình thường với số lượng 1
     nếu không có số lượng hãy để 1
     hãy luôn trả về 1 array kể cả có là 1 phần tử hoặc không có phần tử nào
     nếu không có thời gian bữa ăn thì hãy để là Bữa phụ
@@ -37,6 +38,7 @@ export const generatePromptFromUser = (userInput: string) => {
     'Bữa phụ',
     'Ăn vặt',
     ]. Vui lòng đúng chính tả và viết hoa viết thường
+
     Đừng thêm \`\`\`json\`\`\` trước và sau kết quả trả về.
     `.trim();
 };

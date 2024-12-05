@@ -52,24 +52,34 @@ export const NutritionInfo = ({ data }: { data: CollectDataForm }) => {
           </div>
 
           <div className="mb-4 [&_p]:text-lg">
-            <h3 className="text-2xl font-bold text-info">
+            <h3 className="text-2xl font-semibold text-info">
               Tùy chọn chế độ ăn:
             </h3>
             <p>
               <span className="font-medium">Đơn vị đo lường:</span> {data.units}
             </p>
             <p>
-              <span className="font-medium">Năng lượng:</span> {data.energyUnit}
+              <span className="font-medium">Năng lượng</span>: {data.energyUnit}
             </p>
             <p>
-              <span className="font-medium">Chế độ ăn ưa thích:</span>{' '}
+              <span className="font-medium">Chế độ ăn ưa thích</span>:{' '}
               {data.favoriteDiet}
             </p>
             <p>
-              <span className="font-medium">Loại thực phẩm loại trừ:</span>{' '}
+              <span className="font-medium">Loại thực phẩm loại trừ</span>:{' '}
               {data.exclude.length > 0
                 ? data.exclude.join(', ')
                 : 'Không có thực phẩm bị loại trừ'}
+            </p>
+            <p>
+              <span className="font-medium">Bệnh nền</span>:{' '}
+              {data.medicalHistory?.length > 0
+                ? data.medicalHistory.join(', ')
+                : 'Không có'}
+            </p>
+            <p>
+              <span className="font-medium">Lưu ý</span>:{' '}
+              {data.noteMedicalHistory || 'Không có'}
             </p>
           </div>
         </div>
