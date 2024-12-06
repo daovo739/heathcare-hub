@@ -98,12 +98,12 @@ export function CollectData() {
       if (data && 'response' in data) {
         console.log(data.response);
 
-        const d = parseFormattedText(removeJsonCodeBlocks(data?.response))
+        const d = parseFormattedText(data?.response)
         setResponse(d);
 
-        if (Object.keys(d).length == 0) {
-            setTextWarning(data.response)
-        }
+        // if (Object.keys(d).length == 0) {
+        //     setTextWarning(data.response)
+        // }
       }
     },
   });
