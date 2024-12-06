@@ -17,8 +17,6 @@ type Props = {
 };
 
 export const NutritionResult = ({ data, textWarning }: Props) => {
-  console.log({ data });
-
   if (textWarning) {
     return (
       <>

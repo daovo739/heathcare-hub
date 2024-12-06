@@ -42,7 +42,7 @@ export function generateNutritionPrompt(data: CollectDataForm) {
     **5. Ghi chú thêm**
     - Tránh sử dụng thực phẩm chế biến, đồ uống có đường và chất béo chuyển hóa.
 
-    Cung cấp thông tin chi tiết và rõ ràng theo đúng định dạng trên.
+    Cung cấp thông tin chi tiết và rõ ràng theo đúng định dạng trên. Các đề mục sẽ bắt đầu với dấu **-** và các mục con sẽ bắt đầu với dấu - (không có **).
     `.trim();
 }
 
