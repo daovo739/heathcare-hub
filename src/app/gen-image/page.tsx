@@ -12,14 +12,16 @@ import {
 } from '@/components/ui/card';
 import { generateFromImage } from '@/service/gemini/service';
 import { useMutation } from '@tanstack/react-query';
-import { Camera, Loader2, Upload, X } from 'lucide-react';
+import { Camera, Info, Loader2, Upload, X } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { parseMealSections } from './lib';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ScanPage() {
   const [file, setFile] = useState<File | null>(null);
   const [resultText, setResultText] = useState('');
+  const { toast } = useToast();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0]);
@@ -45,7 +47,15 @@ export default function ScanPage() {
     mutationFn: async () => {
       if (!file) return;
       const rs = await generateFromImage(file);
+
       console.log(rs);
+
+      if (rs?.includes('không hợp lệ')) {
+        return toast({
+          variant: 'error',
+          description: 'Hình ảnh không hợp lệ',
+        });
+      }
 
       setResultText(rs ?? '');
     },
@@ -63,6 +73,11 @@ export default function ScanPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="bg-info text-white p-4 rounded-md mb-4 italic">
+            <Info className="h-4 w-4 inline-block mr-2" />
+            Thông tin chỉ mang tính chất tham khảo, không có giá trị thay thế
+            thuốc chữa bệnh
+          </div>
           {!file ? (
             <div
               {...getRootProps()}

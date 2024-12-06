@@ -19,11 +19,11 @@ const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {foodInfo.map((food, index) => (
+        {foodInfo?.map((food, index) => (
           <div key={index}>
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold text-neutral-900 mb-2 flex items-center">
-                {food.name}
+                {food?.name}
               </h3>
 
               <div className="flex items-center gap-2 mb-2">
@@ -31,7 +31,7 @@ const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
                   <Clock className="text-xl" />
                   <span>Thời điểm nên ăn:</span>
                 </Label>
-                <span>{food.suggestedTimes.join(', ')}</span>
+                <span>{food?.suggestedTimes?.join(', ')}</span>
               </div>
 
               <div className="flex items-center gap-2 mb-2">
@@ -39,7 +39,7 @@ const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
                   <Calendar className="text-xl" />
                   <span>Tần suất nên ăn:</span>
                 </Label>
-                <span>{food.frequency}</span>
+                <span>{food?.frequency}</span>
               </div>
 
               <div className="flex items-center gap-2 mb-2 flex-wrap">
@@ -47,7 +47,7 @@ const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
                   <FileHeart className="text-xl" />
                   <span>Lợi ích:</span>
                 </Label>
-                <span>{food.benefits}</span>
+                <span>{food?.benefits}</span>
               </div>
 
               <div className="flex flex-col gap-2 mb-2">
@@ -58,7 +58,7 @@ const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
                   </span>
                 </Label>
                 <div className="flex flex-col">
-                  {food.restrictions.map((restriction, index) => (
+                  {food?.restrictions?.map((restriction, index) => (
                     <span key={index} className="capitalize">
                       - {restriction}
                     </span>
@@ -71,7 +71,7 @@ const FoodInfoCard = ({ foodInfo }: FoodInfoCardProps) => {
                   <Book className="text-xl" />
                   <span>Lời khuyên:</span>
                 </Label>
-                <span>{food.advice}</span>
+                <span>{food?.advice}</span>
               </div>
             </div>
           </div>

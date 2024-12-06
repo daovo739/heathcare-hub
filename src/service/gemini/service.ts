@@ -181,6 +181,7 @@ export async function generateFromImage(file: File) {
       
 
       Hãy cung cấp thông tin chi tiết và rõ ràng theo đúng định dạng trên. Với mỗi món ăn sẽ là một section
+      Nếu hình ảnh không có bất kỳ món ăn nào, hãy trả về đoạn text ngắn gọn nhất trong đó có từ "không hợp lệ"
       `.trim(),
     ]);
 
