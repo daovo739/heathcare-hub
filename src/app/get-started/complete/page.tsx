@@ -39,6 +39,8 @@ export default function CompletePage() {
     },
     onSuccess: (data) => {
       if ('response' in data) {
+        console.log(data.response);
+
         try {
           const healthData = JSON.parse(removeJsonCodeBlocks(data?.response));
           updateGeneralHealthData(healthData);

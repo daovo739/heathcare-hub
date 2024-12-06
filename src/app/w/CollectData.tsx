@@ -95,6 +95,7 @@ export function CollectData() {
     },
     onSuccess: (data) => {
       if (data && 'response' in data) {
+        console.log(data.response);
         setResponse(parseFormattedText(removeJsonCodeBlocks(data?.response)));
       }
     },
