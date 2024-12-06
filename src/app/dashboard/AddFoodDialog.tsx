@@ -64,6 +64,7 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
   const [foodGenerated, setFoodGenerated] = useState<FoodGenerated[]>([]);
 
   const { mutate, isPending, isSuccess } = useMutation({
+    mutationKey: ['addFood'],
     mutationFn: async () => {
       const prompt = generatePromptFromUser(text);
 
@@ -264,6 +265,7 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
                       description: 'Vui lòng nhập thông tin bữa ăn',
                       variant: 'error',
                     });
+
                   mutate();
                 }}
                 className=" text-white bg-black hover:bg-black"

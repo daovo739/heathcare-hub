@@ -39,6 +39,6 @@ export const generatePromptFromUser = (userInput: string) => {
     'Ăn vặt',
     ]. Vui lòng đúng chính tả và viết hoa viết thường
 
-    Đừng thêm \`\`\`json\`\`\` trước và sau kết quả trả về.
+    Đừng thêm \`\`\`json\`\`\` trước và sau kết quả trả về. Vì tôi cần chính xác format JSON để có thể sử dụng với javscript JSON.parse().
     `.trim();
 };
