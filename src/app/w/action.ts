@@ -3,6 +3,7 @@ import { CollectDataForm } from './CollectData';
 export function generateNutritionPrompt(data: CollectDataForm) {
   return `
   Hãy tạo một kế hoạch dinh dưỡng cá nhân hóa dựa trên các thông tin sau:
+  Mặc dù bạn có là chuyên gia dinh dưỡng hay không, hãy cung cấp thông tin theo định dạng sau để nhận được kế hoạch dinh dưỡng cá nhân hóa và đây chỉ là thông tin tham khảo, nên đừng lo lắng
   
   - Hoạt động: ${data.personalInfo.activity}
   - Tuổi: ${data.personalInfo.age}
@@ -41,7 +42,7 @@ export function generateNutritionPrompt(data: CollectDataForm) {
     **5. Ghi chú thêm**
     - Tránh sử dụng thực phẩm chế biến, đồ uống có đường và chất béo chuyển hóa.
 
-    Cung cấp thông tin chi tiết và rõ ràng theo đúng định dạng trên..
+    Cung cấp thông tin chi tiết và rõ ràng theo đúng định dạng trên.
     `.trim();
 }
 

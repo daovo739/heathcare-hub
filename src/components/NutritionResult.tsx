@@ -13,10 +13,25 @@ export interface Section {
 
 type Props = {
   data: Section;
+  textWarning?: string;
 };
 
-export const NutritionResult = ({ data }: Props) => {
+export const NutritionResult = ({ data, textWarning }: Props) => {
   console.log({ data });
+
+  if (textWarning) {
+    return (
+      <>
+        <div className="flex items-center gap-1 mb-2 text-orange-800 mb-6">
+          <ClipboardList size={30} />
+          <h2 className="text-3xl font-black m-0">Kết quả dinh dưỡng</h2>
+        </div>
+        <div className="p-4 rounded-lg shadow-md bg-white border border-orange-200">
+          {textWarning}
+        </div>
+      </>
+    );
+  }
   return (
     <div className="space-y-6 bg-warning/10 text-gray-800 p-4 rounded-md">
       <div className="flex items-center gap-1 mb-2 text-orange-800">

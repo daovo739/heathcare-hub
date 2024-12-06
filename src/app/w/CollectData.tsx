@@ -46,6 +46,7 @@ export interface CollectDataForm {
 export function CollectData() {
   const router = useRouter();
   const { surveyData, chatSession } = useAppContext();
+  const [textWarning, setTextWarning] = useState<string>('');
 
   const defaultValues = useMemo<CollectDataForm>(
     () => ({
@@ -96,14 +97,20 @@ export function CollectData() {
     onSuccess: (data) => {
       if (data && 'response' in data) {
         console.log(data.response);
-        setResponse(parseFormattedText(removeJsonCodeBlocks(data?.response)));
+
+        const d = parseFormattedText(removeJsonCodeBlocks(data?.response))
+        setResponse(d);
+
+        if (Object.keys(d).length == 0) {
+            setTextWarning(data.response)
+        }
       }
     },
   });
 
   const renderStep = () => {
     if (response) {
-      return <NutritionResult data={response} />;
+      return <NutritionResult data={response} textWarning={textWarning} />;
     }
 
     switch (currentStep) {
