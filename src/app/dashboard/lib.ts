@@ -6,3 +6,9 @@ export const calculateTotalKcal = (foodHistories: FoodHistory): number => {
     return total + mealKcal;
   }, 0);
 };
+
+export function removeJsonCodeBlocks(input: string): string {
+  const blockRegex = /```json([\s\S]*?)```/g;
+
+  return input.replace(blockRegex, (_, content) => content.trim());
+}

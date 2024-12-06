@@ -14,6 +14,7 @@ import { Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ProgressiveContainer } from '../_components/ProgressiveContainer';
 import { useSurveyContext } from '../_contexts/SurveyContext';
+import { removeJsonCodeBlocks } from '@/app/dashboard/lib';
 
 export default function CompletePage() {
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function CompletePage() {
     onSuccess: (data) => {
       if ('response' in data) {
         try {
-          const healthData = JSON.parse(data?.response);
+          const healthData = JSON.parse(removeJsonCodeBlocks(data?.response));
           updateGeneralHealthData(healthData);
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (_) {

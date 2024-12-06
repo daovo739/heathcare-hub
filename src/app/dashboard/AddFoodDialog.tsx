@@ -27,6 +27,7 @@ import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { DiaryGroup, useAppContext } from '../Provider';
 import { generatePromptFromUser } from './actions';
 import { diaryGroup, foodsData } from './constants';
+import { removeJsonCodeBlocks } from './lib';
 
 type Foods = typeof foodsData;
 
@@ -76,7 +77,9 @@ export const AddFoodDialog = ({ open, setOpenModal }: Props) => {
     },
     onSuccess: (data) => {
       if (data && 'response' in data) {
-        setFoodGenerated(JSON.parse(data.response));
+        console.log(data.response);
+
+        setFoodGenerated(JSON.parse(removeJsonCodeBlocks(data.response)));
       }
     },
   });

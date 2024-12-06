@@ -18,6 +18,7 @@ import { Q4 } from './Q4';
 import { Q5 } from './Q5';
 import { Q6 } from './Q6';
 import { Q7 } from './Q7';
+import { removeJsonCodeBlocks } from '../dashboard/lib';
 
 export interface CollectDataForm {
   step: number;
@@ -94,7 +95,7 @@ export function CollectData() {
     },
     onSuccess: (data) => {
       if (data && 'response' in data) {
-        setResponse(parseFormattedText(data.response));
+        setResponse(parseFormattedText(removeJsonCodeBlocks(data?.response)));
       }
     },
   });
