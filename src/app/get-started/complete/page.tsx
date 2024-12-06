@@ -1,15 +1,24 @@
 'use client';
 
+import { useAppContext } from '@/app/Provider';
+import { PacManLoading } from '@/components/PacManLoading';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { handleUserInput } from '@/service/gemini/service';
+import {
+  fallBackGeneralHealthData,
+  generateDashboardPrompt,
+} from '@/utils/dashboard.utils';
+import { useMutation } from '@tanstack/react-query';
+import { Heart } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { ProgressiveContainer } from '../_components/ProgressiveContainer';
 import { useSurveyContext } from '../_contexts/SurveyContext';
-import { useRouter } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { useAppContext } from '@/app/Provider';
 
 export default function CompletePage() {
   const router = useRouter();
-  const { updateSurveyData } = useAppContext();
+  const { updateSurveyData, chatSession, updateGeneralHealthData } =
+    useAppContext();
   const { form } = useSurveyContext();
   const surveyData = form.getValues();
   const {
@@ -17,9 +26,33 @@ export default function CompletePage() {
     formState: { errors },
   } = form;
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['getGeneralHealthData'],
+    mutationFn: async () => {
+      const prompt = generateDashboardPrompt(surveyData);
+
+      return await handleUserInput({
+        userInput: prompt,
+        chatSession: chatSession,
+      });
+    },
+    onSuccess: (data) => {
+      if ('response' in data) {
+        try {
+          const healthData = JSON.parse(data?.response);
+          updateGeneralHealthData(healthData);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (_) {
+          updateGeneralHealthData(fallBackGeneralHealthData);
+        }
+        router.push('/dashboard');
+      }
+    },
+  });
+
   const onSubmit = () => {
     updateSurveyData(surveyData);
-    router.push('/dashboard');
+    mutate();
   };
 
   const canSubmit = Object.keys(errors).length === 0;
@@ -84,6 +117,21 @@ export default function CompletePage() {
           </Button>
         </div>
       </form>
+
+      {/* Backdrop */}
+      {isPending && (
+        <div className="fixed inset-0 w-screen h-screen bg-opacity-50 flex items-center justify-center z-50 bg-slate-800">
+          <div className="relative">
+            <div className="relative mb-12 ml-8">
+              <PacManLoading />
+            </div>
+            <p className="mt-50 flex items-center font-bold gap-2 text-white">
+              Đang khởi tạo dữ liệu, bạn đợi chút nhé!{' '}
+              <Heart size={24} className="text-primary" />
+            </p>
+          </div>
+        </div>
+      )}
     </ProgressiveContainer>
   );
 }

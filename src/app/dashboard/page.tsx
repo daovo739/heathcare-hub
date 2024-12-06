@@ -8,12 +8,6 @@ import {
 } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { handleUserInput } from '@/service/gemini/service';
-import {
-  fallBackGeneralHealthData,
-  generateDashboardPrompt,
-} from '@/utils/dashboard.utils';
-import { useQuery } from '@tanstack/react-query';
 import {
   ArrowRight,
   BadgeAlert,
@@ -24,7 +18,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ButtonCard from '../../components/ButtonCard';
 import { useAppContext } from '../Provider';
 import { AddFoodDialog } from './AddFoodDialog';
@@ -48,49 +42,11 @@ const GeneralHealthInfoTag = ({ statusName }: { statusName?: string }) => {
 
 export default function Page() {
   const router = useRouter();
-  const {
-    surveyData,
-    generalHealthData,
-    updateGeneralHealthData,
-    foodHistories,
-    chatSession,
-  } = useAppContext();
+  const { generalHealthData, foodHistories } = useAppContext();
 
-  const shouldRefetchGeneralHealthData =
-    generalHealthData?.status?.situation ===
-    'Vui lòng nhập đầy đủ thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lý để đánh giá.';
-
-  const { data, isFetching, isSuccess } = useQuery({
-    queryKey: ['surveyData'],
-    queryFn: async () => {
-      const prompt = generateDashboardPrompt(surveyData);
-
-      return await handleUserInput({
-        userInput: prompt,
-        chatSession: chatSession,
-      });
-    },
-    refetchOnWindowFocus: false,
-    enabled:
-      (!!surveyData && !generalHealthData) ||
-      (!!generalHealthData && shouldRefetchGeneralHealthData),
-  });
   const currentKcal = calculateTotalKcal(foodHistories);
 
   const [openModal, setOpenModal] = useState(false);
-
-  useEffect(() => {
-    if (data?.success) {
-      try {
-        const healthData = JSON.parse(data?.response);
-        updateGeneralHealthData(healthData);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (_) {
-        updateGeneralHealthData(fallBackGeneralHealthData);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
 
   const caloTarget = generalHealthData?.energy?.caloTarget ?? 0;
 
@@ -103,40 +59,29 @@ export default function Page() {
 
       <section className="flex flex-col gap-16">
         <div className="text-neutral-900 bg-white p-4 px-6 rounded-lg max-h-[16rem] overflow-auto relative">
-          {isFetching && (
-            <div className="space-y-2">
-              <Skeleton className="w-full h-4" />
-              <Skeleton className="w-full h-4" />
-              <Skeleton className="w-full h-4" />
-              <Skeleton className="w-full h-4" />
-              <Skeleton className="w-full h-4" />
-            </div>
-          )}
-          {!isFetching && isSuccess && (
+          {generalHealthData && (
             <GeneralHealthInfoTag
               statusName={generalHealthData?.status?.name?.toLowerCase()}
             />
           )}
           <span className="italic text-base">
-            {!isFetching && isSuccess && generalHealthData?.status?.situation}
+            {generalHealthData && generalHealthData?.status?.situation}
           </span>{' '}
-          {!isFetching &&
-            isSuccess &&
-            generalHealthData?.status?.situation ===
-              'Vui lòng nhập đầy đủ thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lý để đánh giá.' && (
-              <Link
-                href="/get-started"
-                className="text-info italic text-base underline"
-              >
-                Trở lại khảo sát.
-              </Link>
-            )}
+          {generalHealthData?.status?.situation ===
+            'Vui lòng nhập đầy đủ thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lý để đánh giá.' && (
+            <Link
+              href="/get-started"
+              className="text-info italic text-base underline"
+            >
+              Trở lại khảo sát.
+            </Link>
+          )}
         </div>
 
         <div className="grid grid-cols-3 gap-4">
           {/* Calo */}
           <div className="mx-auto p-4 bg-white shadow-lg rounded-lg border border-gray-200 col-span-1 cursor-pointer w-full">
-            {isFetching ? (
+            {false ? (
               <div className="space-y-2">
                 <Skeleton className="w-1/3 h-4" />
                 <Skeleton className="w-full h-4" />
