@@ -21,13 +21,6 @@ interface API {
   timestamp: string;
   id: string;
 }
-[];
-
-const getLogHistory = async () => {
-  const res = getChatLogs();
-
-  return res;
-};
 
 export default function Page() {
   const { data: logs, isFetching } = useQuery({
