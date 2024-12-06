@@ -67,14 +67,16 @@ export default function Page() {
           <span className="italic text-base">
             {generalHealthData && generalHealthData?.status?.situation}
           </span>{' '}
-          {generalHealthData?.status?.situation ===
-            'Vui lòng nhập đầy đủ thông tin về tuổi tác, chiều cao, cân nặng, mục tiêu và tiền sử bệnh lý để đánh giá.' && (
-            <Link
-              href="/get-started"
-              className="text-info italic text-base underline"
-            >
-              Trở lại khảo sát.
-            </Link>
+          {!generalHealthData && (
+            <>
+              <span>Chúng tôi không tìm thấy thông tin của bạn, vui lòng </span>
+              <Link
+                href="/get-started"
+                className="text-info italic text-base underline"
+              >
+                trở lại khảo sát.
+              </Link>
+            </>
           )}
         </div>
 
@@ -109,6 +111,8 @@ export default function Page() {
                       'px-3 py-1 text-sm font-medium text-green-700 bg-green-100 rounded-lg',
                       {
                         'bg-red-100 text-red-700': currentKcal > caloTarget,
+                        'bg-warning/20 text-warning':
+                          currentKcal < caloTarget / 2,
                       }
                     )}
                   >

@@ -13,7 +13,9 @@ export default function NotFound() {
         <h1 className="text-2xl font-bold">
           Tính năng đang trong quá trình phát triển, hãy quay lại sau ...
         </h1>
-        <Button onClick={() => router.push('/')}>Trở về trang chủ</Button>
+        <Button onClick={() => router.push('/dashboard')}>
+          Trở về trang chủ
+        </Button>
       </div>
     </div>
   );

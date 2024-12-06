@@ -37,6 +37,7 @@ export default function ScanPage() {
 
   const handleReset = () => {
     setFile(null);
+    setResultText('');
   };
 
   const {

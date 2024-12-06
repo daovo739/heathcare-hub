@@ -55,7 +55,7 @@ Hãy kiểm tra kĩ thông tin trước khi trả về, vì một số lần tô
 
 export const fallBackGeneralHealthData = {
   energy: {
-    caloIn: 1800,
+    caloIn: 0,
     caloTarget: 2000,
   },
   status: {
