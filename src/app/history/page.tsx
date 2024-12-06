@@ -1,3 +1,5 @@
+'use client';
+
 import { NutritionInfo } from '@/components/NutritionInfo';
 import { NutritionResult } from '@/components/NutritionResult';
 import {
@@ -7,9 +9,19 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { getChatLogs } from '@/service/gemini/service';
+import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { CalendarDays } from 'lucide-react';
 import { parseFormattedText } from '../w/action';
+import { CollectDataForm } from '../w/CollectData';
+
+interface API {
+  dataForm: CollectDataForm;
+  botResponse: string;
+  timestamp: string;
+  id: string;
+}
+[];
 
 const getLogHistory = async () => {
   const res = getChatLogs();
@@ -17,14 +29,28 @@ const getLogHistory = async () => {
   return res;
 };
 
-export default async function Page() {
-  const logs = await getLogHistory();
+export default function Page() {
+  const { data: logs, isFetching } = useQuery({
+    queryKey: ['logHistory'],
+    queryFn: async (): Promise<API[]> => {
+      const logs = await getChatLogs();
+      return logs;
+    },
+  });
+
+  if (isFetching) {
+    return (
+      <div className="min-h-[80vh] flex justify-center items-center">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div>
       <h1 className="text-2xl font-bold">Lịch sử các đề xuất dinh dưỡng</h1>
 
-      {logs.map((log) => {
+      {logs?.map((log) => {
         return (
           <Accordion type="single" collapsible className="w-full" key={log.id}>
             <AccordionItem value="item-1">
